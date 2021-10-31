@@ -52,6 +52,7 @@
         'New-IdentityNowCertCampaign',        
         'New-IdentityNowGovernanceGroup',
         'New-IdentityNowIdentityProfilesReport',
+        'New-IdentityNowLifecycleState',
         'New-IdentityNowOAuthAPIClient',
         'New-IdentityNowPersonalAccessToken',
         'New-IdentityNowProfile',
