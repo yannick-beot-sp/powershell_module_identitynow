@@ -48,7 +48,7 @@ http://darrenjrobinson.com/sailpoint-identitynow
         return $lifecycleStates | Add-Member -TypeName 'IdentityNowLifecyleState' -PassThru
     }
     catch {
-        Write-Error "Identity Profile or lifecyle state  does not exist. Check App ID. $($_)" 
+        Write-Error "Identity Profile or lifecyle state  does not exist. Check Identity Profile ID or Lifecycle State ID. $($_)" 
     }
     
 }
