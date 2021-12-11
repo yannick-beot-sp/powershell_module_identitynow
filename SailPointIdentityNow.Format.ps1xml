@@ -48,6 +48,52 @@
             </TableRowEntries>
          </TableControl>
       </View>
-      
+      <!-- New View Public Identity -->
+      <View>
+         <Name>IdentityNowPublicIdentity</Name>
+         <ViewSelectedBy>
+            <TypeName>IdentityNow.PublicIdentity</TypeName>
+         </ViewSelectedBy>
+         <TableControl>
+            <TableHeaders>
+               <TableColumnHeader>
+                  <Label>Id</Label>
+               </TableColumnHeader>
+               <TableColumnHeader>
+                  <Label>Unique identifier</Label>
+               </TableColumnHeader>
+               <TableColumnHeader>
+                  <Label>Display Name</Label>
+               </TableColumnHeader>
+               <TableColumnHeader>
+                  <Label>Email</Label>
+               </TableColumnHeader>
+               <TableColumnHeader>
+                  <Label>Status</Label>
+               </TableColumnHeader>
+            </TableHeaders>
+            <TableRowEntries>
+               <TableRowEntry>
+                  <TableColumnItems>
+                     <TableColumnItem>
+                        <PropertyName>id</PropertyName>
+                     </TableColumnItem>
+                     <TableColumnItem>
+                        <PropertyName>alias</PropertyName>
+                     </TableColumnItem>
+                     <TableColumnItem>
+                        <PropertyName>name</PropertyName>
+                     </TableColumnItem>
+                     <TableColumnItem>
+                        <PropertyName>email</PropertyName>
+                     </TableColumnItem>
+                     <TableColumnItem>
+                        <PropertyName>status</PropertyName>
+                     </TableColumnItem>
+                  </TableColumnItems>
+               </TableRowEntry>
+            </TableRowEntries>
+         </TableControl>
+      </View>
    </ViewDefinitions>
 </Configuration>

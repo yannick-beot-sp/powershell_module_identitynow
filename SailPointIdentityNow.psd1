@@ -7,8 +7,7 @@
     Description          = "Orchestration of SailPoint IdentityNow"
     PowerShellVersion    = '5.1'
     CompatiblePSEditions = 'Core', 'Desktop'
-    # Format files (.ps1xml) to be loaded when importing this module
-    FormatsToProcess   = @('SailPointIdentityNow.Format.ps1xml')
+    FormatsToProcess     = @("SailPointIdentityNow.Format.ps1xml")
     FunctionsToExport    = @('Complete-IdentityNowTask',
         'Convert-UnixTime',
         'Export-IdentityNowConfig',
@@ -34,6 +33,7 @@
         'Get-IdentityNowPersonalAccessToken',
         'Get-IdentityNowProfile',
         'Get-IdentityNowProfileOrder',
+        'Get-IdentityNowPublicIdentity',
         'Get-IdentityNowQueue',
         'Get-IdentityNowRole',
         'Get-IdentityNowRule',
