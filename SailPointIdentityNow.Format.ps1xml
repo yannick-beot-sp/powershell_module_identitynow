@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+   <ViewDefinitions>
+      <!-- New View IdentityNowVACluster -->
+      <View>
+         <Name>IdentityNowVACluster</Name>
+         <ViewSelectedBy>
+            <TypeName>IdentityNow.VACluster</TypeName>
+         </ViewSelectedBy>
+         <TableControl>
+            <TableHeaders>
+               <TableColumnHeader>
+                  <Label>Id</Label>
+               </TableColumnHeader>
+               <TableColumnHeader>
+                  <Label>Name</Label>
+               </TableColumnHeader>
+               <TableColumnHeader>
+                  <Label>Configured CCG Version</Label>
+               </TableColumnHeader>
+               <TableColumnHeader>
+                  <Label>Pinned</Label>
+               </TableColumnHeader>
+               <TableColumnHeader>
+                  <Label>Status</Label>
+               </TableColumnHeader>
+            </TableHeaders>
+            <TableRowEntries>
+               <TableRowEntry>
+                  <TableColumnItems>
+                     <TableColumnItem>
+                        <PropertyName>id</PropertyName>
+                     </TableColumnItem>
+                     <TableColumnItem>
+                        <PropertyName>name</PropertyName>
+                     </TableColumnItem>
+                     <TableColumnItem>
+                        <PropertyName>ccgVersion</PropertyName>
+                     </TableColumnItem>
+                     <TableColumnItem>
+                        <PropertyName>pinnedConfig</PropertyName>
+                     </TableColumnItem>
+                     <TableColumnItem>
+                        <PropertyName>status</PropertyName>
+                     </TableColumnItem>
+                  </TableColumnItems>
+               </TableRowEntry>
+            </TableRowEntries>
+         </TableControl>
+      </View>
+      
+   </ViewDefinitions>
+</Configuration>
