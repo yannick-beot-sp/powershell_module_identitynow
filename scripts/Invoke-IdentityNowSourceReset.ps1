@@ -33,7 +33,7 @@ function Invoke-IdentityNowSourceReset {
         [string]$skip        
     )
 
-    $token = Get-IdentityNowAuth -return V3JWT
+    $v3Token = Get-IdentityNowAuth | Test-IdentityNowToken
 
     if ($token) {
         try {

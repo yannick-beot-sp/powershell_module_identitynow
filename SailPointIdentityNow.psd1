@@ -22,6 +22,7 @@
         'Get-IdentityNowAuth',
         'Get-IdentityNowCertCampaign',
         'Get-IdentityNowCertCampaignReport',
+        'Get-IdentityNowConnectors',
         'Get-IdentityNowEmailTemplate',
         'Get-IdentityNowGovernanceGroup',
         'Get-IdentityNowIdentityAttribute',
