@@ -24,6 +24,12 @@ function Get-IdentityNowPaginatedCollection {
 .PARAMETER pageSize
     Number of element per page. Should not exceed 250
 
+.PARAMETER Method
+    Method to use for endpoint
+
+.PARAMETER Body
+    Body if any 
+
 .EXAMPLE
     Get-IdentityNowPaginatedCollection -uri $uri
 #>
@@ -36,6 +42,13 @@ function Get-IdentityNowPaginatedCollection {
         [string]$filters,
         [Parameter(Mandatory = $false, ValueFromPipeline = $true)]
         [string]$sorters,
+
+        [Parameter(Mandatory = $false, ValueFromPipeline = $true)]
+        [Microsoft.PowerShell.Commands.WebRequestMethod] $Method = 'Get',
+
+        [Parameter(Mandatory = $false, ValueFromPipeline = $true)]
+        $Body,
+
         [Parameter(Mandatory = $false, ValueFromPipeline = $true)]
         [string]$pageSize = 250
     )
@@ -56,11 +69,21 @@ function Get-IdentityNowPaginatedCollection {
     }
     $total = -1
 
+    $requestArgs = @{
+        Method      = $Method 
+        Uri         = $newUri
+        ContentType = "application/json" 
+        Headers     = @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }
+    }
+    if($body){
+        $requestArgs.Add("Body", $body)
+    }
+
     while ($total -eq -1 -or $total -gt $offset) {
         Write-Verbose "offset=$offset"
-        $response = Invoke-WebRequest -Method Get -Uri $newUri `
-            -ContentType "application/json" `
-            -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }
+        $requestArgs.Uri = $newUri 
+
+        $response = Invoke-WebRequest @requestArgs
         Write-output ($response.Content | ConvertFrom-Json)
         
         if ($total -eq -1) {
@@ -68,7 +91,6 @@ function Get-IdentityNowPaginatedCollection {
             $total = [int] ($response.Headers["X-Total-Count"][0])
             Write-Verbose "Total items=$total"
         }
-
         
         $offset += $pageSize
 

@@ -76,6 +76,7 @@
         'Remove-IdentityNowUserSourceAccount',
         'Save-IdentityNowConfiguration',
         'Search-IdentityNow',
+        'Search-IdentityNowAccessProfiles',
         'Search-IdentityNowEntitlements',
         'Search-IdentityNowEvents',
         'Search-IdentityNowIdentities',
