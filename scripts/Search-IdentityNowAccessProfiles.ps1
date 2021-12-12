@@ -28,7 +28,7 @@ function Search-IdentityNowAccessProfiles {
     )
     try {                         
 
-        $body = "{`"query`":{`"query`":`"$query`"},`"indices`":[`"entitlements`"],`"includeNested`":false,`"sort`":[`"source.name`"]}"
+        $body = "{`"query`":{`"query`":`"$query`"},`"indices`":[`"accessprofiles`"],`"includeNested`":false,`"sort`":[`"source.name`"]}"
         Write-Verbose "body=$body"
 
         $uri = "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/search"

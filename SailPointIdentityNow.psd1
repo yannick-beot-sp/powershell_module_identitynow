@@ -50,6 +50,7 @@
         'Invoke-IdentityNowSourceReset',
         'Join-IdentityNowAccount',
         'New-IdentityNowAccessProfile',
+        'New-IdentityNowApplication',
         'New-IdentityNowAPIClient',
         'New-IdentityNowCertCampaign',        
         'New-IdentityNowGovernanceGroup',
