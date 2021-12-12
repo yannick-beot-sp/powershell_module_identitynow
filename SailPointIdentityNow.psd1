@@ -81,6 +81,7 @@
         'Search-IdentityNowIdentities',
         'Search-IdentityNowUserProfile',
         'Search-IdentityNowUsers',
+        'Send-IdentityNowSourceFile',
         'Set-IdentityNowCredential',
         'Set-IdentityNowOrg',
         'Set-IdentityNowTimeZone',
