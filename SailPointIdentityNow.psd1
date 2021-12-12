@@ -102,6 +102,7 @@
         'Update-IdentityNowProfileMapping',
         'Update-IdentityNowProfileOrder',
         'Update-IdentityNowRole',
+        'Update-IdentityNowSourceSchema',
         'Update-IdentityNowSource',
         'Update-IdentityNowUserSourceAccount',
         'Update-IdentityNowTransform'

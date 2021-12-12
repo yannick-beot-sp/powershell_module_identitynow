@@ -1,28 +1,33 @@
-function New-IdentityNowSourceSchema {
+function Update-IdentityNowSourceSchema {
     <#
 .SYNOPSIS
-Create a schema for a source.
+Update a schema for a source.
 
-.PARAMETER id
+.PARAMETER SourceId
 Id of the source
 
-.PARAMETER schema
-Schema as a JSON string
+.PARAMETER SchemaId
+Id of the schema
 
+.PARAMETER Schema
+Schema as a JSON string
 #>
     [cmdletbinding()]
     param(
         [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
-        [string]$id, 
+        [Alias('id')]
+        [string]$SourceId, 
         [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
-        [string]$schema
+        [string]$SchemaId, 
+        [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
+        [string]$Schema
     )
     $v3Token = Get-IdentityNowAuth | Test-IdentityNowToken
     
     try {
 
-        $uri = "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/sources/$id/schemas"
-        $response = Invoke-RestMethod -Uri $uri -Method Post `
+        $uri = "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/sources/$SourceId/schemas/$SchemaId"
+        $response = Invoke-RestMethod -Uri $uri -Method Put `
             -Body $schema `
             -ContentType 'application/json' `
             -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }
@@ -30,7 +35,7 @@ Schema as a JSON string
         return $response
     }
     catch {
-        Write-Error "Creation of schema failed. $($_)"
+        Write-Error "Update of schema failed. $($_)"
         throw $_
     }
 }
