@@ -77,7 +77,7 @@ http://darrenjrobinson.com/sailpoint-identitynow
         [string[]]$ApprovalSchemes = @(),
 
         [Parameter(ValueFromPipeline = $true, ParameterSetName = "detailed")]
-        [string[]]$RevocationApprovalSchemes,
+        [string[]]$RevocationApprovalSchemes= @(),
 
         [Parameter(ValueFromPipeline = $true, ParameterSetName = "detailed")]
         [switch]$requestCommentsRequired,
