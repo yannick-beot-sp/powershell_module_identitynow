@@ -21,6 +21,9 @@ function Invoke-IdentityNowAggregateSource {
 .EXAMPLE
     Invoke-IdentityNowAggregateSource -sourceID 12345 -disableOptimization
 
+.EXAMPLE
+    Get-IdentityNowSource -name "Active Directory" | Invoke-IdentityNowAggregateSource -Wait
+
 .LINK
     http://darrenjrobinson.com/sailpoint-identitynow
 
@@ -28,11 +31,12 @@ function Invoke-IdentityNowAggregateSource {
 
     [cmdletbinding()]
     param(
-        [Parameter(Mandatory = $true, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true)]
-        [string]$sourceID,
+        [Parameter(Mandatory = $true, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, ParameterSetName = "id")]
+        [int]$sourceID,
+        [Parameter(Mandatory = $true, ValueFromPipeline = $true, ParameterSetName = "object")]
+        $source,
         [switch]$disableOptimization,
         [switch]$Wait
-
     )
     Begin {
 
@@ -49,7 +53,16 @@ function Invoke-IdentityNowAggregateSource {
         }
     }
     Process {
-        $argsSplat.uri = "https://$($IdentityNowConfiguration.orgName).identitynow.com/api/source/loadAccounts/$($sourceID)"
+        if ($PSCmdlet.ParameterSetName -eq "object") {
+            if ($source.id -match '^\d+$') {
+                $sourceID = $source.id
+            }
+            else {
+                $sourceID = $source.connectorAttributes.cloudExternalId
+            }
+        }
+
+        $argsSplat.uri = "https://$($IdentityNowConfiguration.orgName).identitynow.com/api/source/loadAccounts/$sourceID"
         
         try {
             $aggregate = Invoke-RestMethod @argsSplat
