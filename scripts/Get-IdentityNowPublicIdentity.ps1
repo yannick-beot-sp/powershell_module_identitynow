@@ -38,8 +38,8 @@ Get-IdentityNowPublicIdentity
         
     try {
         Write-Verbose "Get public identities from $uri"
-        Get-IdentityNowPaginatedCollection -uri $uri -sorters "name" |`
-            % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.PublicIdentity"); $_ }
+        Get-IdentityNowPaginatedCollection -uri $uri -sorters "name" | `
+            ? {$_} | % {  $_.PSObject.TypeNames.Insert(0, "IdentityNow.PublicIdentity"); $_ }
     }
     catch {
         Write-Error "Could not get public identities. $($_)"
