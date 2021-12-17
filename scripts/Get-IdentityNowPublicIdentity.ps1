@@ -8,30 +8,64 @@ Get a list of public identities
 
 .EXAMPLE
 Get-IdentityNowPublicIdentity
+
+.EXAMPLE
+Get-IdentityNowPublicIdentity id -in 2c9180837c13ab62017c178cad6a0776,2c9180877abf8fbe017ac8869f122bc8
+
+.EXAMPLE
+Get-IdentityNowPublicIdentity id -eq 2c9180837c13ab62017c178cad6a0776
+
+.EXAMPLE
+Get-IdentityNowPublicIdentity alias -sw sailpoint
+
 #>
 
     [CmdletBinding(DefaultParameterSetName = "Filter")]
     param(
-        [Parameter(ParameterSetName = "Filter")]
+        [Parameter(ParameterSetName = "Filter", Position = 0)]
+        [Alias("Filter")]
         [string]$IdentityNowFilters,
 
-        [Parameter(ParameterSetName = "ParamEq", Position = 1)]
+        [Parameter(Mandatory, ParameterSetName = "Eq", Position = 0)]
+        [Parameter(Mandatory, ParameterSetName = "In", Position = 0)]
+        [Parameter(Mandatory, ParameterSetName = "Sw", Position = 0)]
+        [ValidateSet("id", "alias", "email", "firstname", "lastname")]
         [string]$FieldName,
 
-        [Parameter(ParameterSetName = "ParamEq", Position = 2)]
+        [Parameter(ParameterSetName = "Eq")]
         [switch]$eq,
 
-        [Parameter(ParameterSetName = "ParamEq", Position = 3)]
-        [string]$FieldValue
+        [Parameter(ParameterSetName = "In")]
+        [switch]$in,
+
+        [Parameter(ParameterSetName = "Sw")]
+        [switch]$sw,
+
+        [Parameter(Mandatory, ParameterSetName = "Eq", Position = 1)]
+        [Parameter(Mandatory, ParameterSetName = "Sw", Position = 1)]
+        [ValidateNotNullOrEmpty()]
+        [string]$FieldValue,
+        
+        [Parameter(Mandatory, ParameterSetName = "In", Position = 1)]
+        [ValidateNotNullOrEmpty()]
+        [string[]]$FieldValues
+
     )
 
-
-    
     $uri = "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/public-identities"
     
-    if ($PSCmdlet.ParameterSetName -eq "ParamEq") {
-        $IdentityNowFilters = "$($FieldName.ToLower()) eq `"$FieldValue`""
+    if ($PSCmdlet.ParameterSetName -ne "Filter") {
+        $FieldName = $FieldName.ToLower()
+        if ($PSCmdlet.ParameterSetName -ne "in") {
+            $operator = $PSCmdlet.ParameterSetName.ToLower()
+            $IdentityNowFilters = "$FieldName $operator `"$FieldValue`""
+        }
+        else {
+            $values = $FieldValues -join "`",`""
+            $IdentityNowFilters = "$($FieldName.ToLower()) in (`"$values`")"
+        }
     }
+
     if ($IdentityNowFilters) {
         $uri = Set-HttpQueryString -Uri $uri -Name "filters" -Value $IdentityNowFilters
     }
@@ -39,7 +73,7 @@ Get-IdentityNowPublicIdentity
     try {
         Write-Verbose "Get public identities from $uri"
         Get-IdentityNowPaginatedCollection -uri $uri -sorters "name" | `
-            ? {$_} | % {  $_.PSObject.TypeNames.Insert(0, "IdentityNow.PublicIdentity"); $_ }
+            ? { $_ } | % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.PublicIdentity"); $_ }
     }
     catch {
         Write-Error "Could not get public identities. $($_)"
