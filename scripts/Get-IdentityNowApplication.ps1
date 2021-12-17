@@ -48,7 +48,7 @@ http://darrenjrobinson.com/sailpoint-identitynow
 
         Invoke-RestMethod -Method Get -Uri $uri `
             -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" } | `
-            % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.ApplicationCC"); $_ }
+            ? { $_ } | % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.ApplicationCC"); $_ }
     }
     catch {
         Write-Error "Application doesn't exist. Check App ID. $($_)" 

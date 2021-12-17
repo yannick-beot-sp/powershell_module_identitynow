@@ -62,8 +62,8 @@ function Get-IdentityNowSource {
 
                 $uri = "$v3BaseUrl/$sourceID"
 
-                $IDNSources = Invoke-RestMethod -Method Get -Uri $uri -Headers $headers |`
-                    % { if($_) {$_.PSObject.TypeNames.Insert(0, "IdentityNow.Source"); $_ }}
+                $IDNSources = Invoke-RestMethod -Method Get -Uri $uri -Headers $headers | `
+                    ? { $_ } | % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.Source"); $_ }
                 return $IDNSources
             }
         }
@@ -79,7 +79,7 @@ function Get-IdentityNowSource {
                 $params.Add("filters", $filter)
             }
             $IDNSources = Get-IdentityNowPaginatedCollection @params |`
-                % { if($_) {$_.PSObject.TypeNames.Insert(0, "IdentityNow.Source"); $_ }}
+                ? { $_ } | % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.Source"); $_ }
             return $IDNSources
 
         }

@@ -70,23 +70,7 @@ Path to the file to send
                 ) -join $LF
            
                 $response = Invoke-RestMethod -Uri $url -Method Post -headers $Headers -body $bodyLines 
-                $response | % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.Source"); $_ }
-<#
-                $multipartContent = [System.Net.Http.MultipartFormDataContent]::new()
-                $FileStream = [System.IO.FileStream]::new($path, [System.IO.FileMode]::Open)
-                $fileHeader = [System.Net.Http.Headers.ContentDispositionHeaderValue]::new("form-data")
-                $fileHeader.Name = "file"
-                $fileHeader.FileName = [System.IO.Path]::GetFileName($Path)
-                $fileContent = [System.Net.Http.StreamContent]::new($FileStream)
-                $fileContent.Headers.ContentDisposition = $fileHeader
-                $fileContent.Headers.ContentType = [System.Net.Http.Headers.MediaTypeHeaderValue]::Parse("text/plain")
-                $multipartContent.Add($fileContent)
-
-                $response = Invoke-WebRequest -Uri $url -Body $multipartContent -Method Post -Headers $headers
-
-                return $response.content | ConvertFrom-Json | `
-                    % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.Source"); $_ }
-#>
+                $response | ? {$_} | % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.Source"); $_ }
             }
 
         }

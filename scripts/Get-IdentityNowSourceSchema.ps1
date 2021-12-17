@@ -38,14 +38,15 @@ function Get-IdentityNowSourceSchema {
                     throw "Invalid arguments. 'groupOnly' switch only available for v3"
                 }
                 $sourceSchema = Invoke-RestMethod -method Get -uri "https://$($IdentityNowConfiguration.orgName).identitynow.com/cc/api/source/getAccountSchema/$($sourceID)" -Headers $headers
-                return $sourceSchema | % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.SchemaV1"); $_ }
-            } else {
+                return $sourceSchema | ? { $_ } | % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.SchemaV1"); $_ }
+            }
+            else {
                 $url = (Get-IdentityNowOrg).'v3 Base API URI' + "/sources/$sourceID/schemas"
                 if ($groupOnly.IsPresent) {
                     $url = $url | Set-HttpQueryString -Name "include-types" -Value "group"
                 }
                 $sourceSchema = Invoke-RestMethod -method Get -uri $url -Headers $headers
-                return $sourceSchema | % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.Schema"); $_ }
+                return $sourceSchema | ? {$_} | % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.Schema"); $_ }
                 
             }
         }

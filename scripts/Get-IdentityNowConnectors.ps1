@@ -25,7 +25,7 @@ Get-IdentityNowConnectors
             -ContentType "application/json" `
             -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }
         $response.items | `
-            % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.Connector"); $_ }
+            ? { $_ } | % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.Connector"); $_ }
     }
     catch {
         Write-Error "Could not get connectors. $($_)"

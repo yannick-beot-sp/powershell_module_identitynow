@@ -35,11 +35,11 @@ function Search-IdentityNowAccessProfiles {
         Write-Verbose "Get Access Profiles from $uri"
           
         Get-IdentityNowPaginatedCollection -uri $uri -Method Post -Body $body | `
-            % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.AccessProfile"); $_ }
+            ? {$_} | % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.AccessProfile"); $_ }
         
     }
     catch {
-        Write-Error "Bad Query or more than 10,000 results? Check your query. $($_)"
+        Write-Error "Bad Query ? Check your query. $($_)"
         throw $_
     }
 }

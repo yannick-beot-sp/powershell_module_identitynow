@@ -39,7 +39,7 @@ http://darrenjrobinson.com/sailpoint-identitynow
             $IDNCluster = $IDNCluster | ? { $_.name -eq $Name }
         }
 
-        $IDNCluster | % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.VACluster") }
+        $IDNCluster | ? {$_} | % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.VACluster") }
 
         return $IDNCluster
     }
