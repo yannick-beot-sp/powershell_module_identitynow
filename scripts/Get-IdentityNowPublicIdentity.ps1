@@ -6,6 +6,11 @@ Get a list of public identities
 .DESCRIPTION
 Get a list of public identities
 
+.PARAMETER Filter
+Filter results using the standard syntax described in V3 API Standard Collection Parameters
+See for filtering : https://developer.sailpoint.com/apis/beta/#operation/listAccessProfiles
+
+
 .EXAMPLE
 Get-IdentityNowPublicIdentity
 
