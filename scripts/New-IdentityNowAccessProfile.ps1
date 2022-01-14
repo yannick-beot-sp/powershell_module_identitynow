@@ -36,11 +36,11 @@ $entitlementsToAdd = @{"entitlements" = $entitlementIds}
 $accessProfile.add("entitlements", $entitlementsToAdd.entitlements)
 
 # Access Profile Type
-$accessProfile.add("approvalSchemes", "manager")
+$accessProfile.add("approvalSchemes",  @(@{approverType="MANAGER"}) )
 $accessProfile.add("requestCommentsRequired", $true)
 $accessProfile.add("deniedCommentsRequired", $true)
 
-New-IdentityNowAccessProfile -profile ($accessProfile | convertto-json)
+New-IdentityNowAccessProfile -profile (convertto-json $accessProfile)
 
 .EXAMPLE
 # Get Owner for Access Profile
@@ -59,17 +59,7 @@ New-IdentityNowAccessProfile -name "Sydney Engineering" `
     -sourceId $adSource.id `
     -ownerId $owner.id `
     -entitlements $entitlementIds `
-    -approvalSchemes "manager" `
-    -requestCommentsRequired `
-    -deniedCommentsRequired 
-
-
-New-IdentityNowAccessProfile -name "Custom PRISM - Modify_Reports" `
-    -description  "Custom PRISM - Modify_Reports" `
-    -sourceId $Source.id `
-    -ownerId $owner.id `
-    -entitlements $entitlementIds `
-    -approvalSchemes "manager" `
+    -approvalSchemes @{approverType="MANAGER"} `
     -requestCommentsRequired `
     -deniedCommentsRequired 
 
@@ -103,7 +93,7 @@ http://darrenjrobinson.com/sailpoint-identitynow
         [string[]] $entitlements,
         
         [Parameter(ValueFromPipeline = $true, ParameterSetName = "detailed")]
-        [string[]]$ApprovalSchemes = @(),
+        [Object[]]$ApprovalSchemes = @(),
 
         [Parameter(ValueFromPipeline = $true, ParameterSetName = "detailed")]
         [string[]]$RevocationApprovalSchemes= @(),
@@ -179,14 +169,15 @@ http://darrenjrobinson.com/sailpoint-identitynow
                         "approvalSchemes" = $RevocationApprovalSchemes
                     }
                 }
-                $AccessProfile = $accessProfileHt | ConvertTo-Json -Depth 100
+                $AccessProfile =  ConvertTo-Json  $accessProfileHt -Depth 100
             }
             Write-Verbose "Access Profile=$AccessProfile"
+            
             $IDNCreateAP = Invoke-RestMethod -Method Post `
                 -Uri  $url `
                 -Headers $headers `
                 -Body $AccessProfile
-                
+              
             if ($usingV2) {
                 $IDNCreateAP.PSObject.TypeNames.Insert(0, "IdentityNow.AccessProfileV2")
             }
