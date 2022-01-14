@@ -10,7 +10,7 @@ function Search-IdentityNowAccessProfiles {
     (required) Access Profiles Search Query.
     
 .EXAMPLE
-    Search-IdentityNowAccessProfiles -query "source.name:'Active Directory'" 
+    Search-IdentityNowAccessProfiles -query 'source.name:"Active Directory"'
 
 .EXAMPLE
     Search-IdentityNowAccessProfiles -query "source.id:2c918083670df373016835e063ff6b5b" 
@@ -28,7 +28,7 @@ function Search-IdentityNowAccessProfiles {
     )
     try {                         
 
-        $body = "{`"query`":{`"query`":`"$( ConvertTo-Json $query)`"},`"indices`":[`"accessprofiles`"],`"includeNested`":false,`"sort`":[`"source.name`"]}"
+        $body = "{`"query`":{`"query`":$( ConvertTo-Json $query)},`"indices`":[`"accessprofiles`"],`"includeNested`":false,`"sort`":[`"source.name`"]}"
         Write-Verbose "body=$body"
 
         $uri = "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/search"
