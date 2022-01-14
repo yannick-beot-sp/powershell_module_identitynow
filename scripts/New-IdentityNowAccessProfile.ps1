@@ -17,12 +17,11 @@ New-IdentityNowAccessProfile -profile "{"entitlements":  ["2c91808668dcf3970168d
 $owner = Search-IdentityNowUserProfile -query "darren.robinson"
 
 # Get Source for Access Proile
-$sources = Get-IdentityNowSource 
-$adSource = $sources | Select-Object | Where-Object {$_.name -like '*Active Directory*'}
+$adSource = Get-IdentityNowSource -name "Active Directory"
 
 # Entitlements
-$entitlement = Search-IdentityNowEntitlements -query "FS-SYDNEY-AUS-ENGINEERING"
-$e = $entitlement | Select-Object | Where-Object {$_.source.name -eq 'Active Directory'}
+$entitlements = Search-IdentityNowEntitlements -query "FS-SYDNEY-AUS-ENGINEERING"
+$entitlementIds  = $entitlements  | Select-Object -ExpandProperty id
 
 # Access Profile Details
 $accessProfile = @{}
@@ -32,9 +31,8 @@ $accessProfile.add("sourceId", $adSource.id)
 $accessProfile.add("ownerId", $owner.id)
 
 # Access Profile Entitlements
-$entitlements = @()
-ForEach($i in $e) {$entitlements += $i.id}
-$entitlementsToAdd = @{"entitlements" = $entitlements}
+
+$entitlementsToAdd = @{"entitlements" = $entitlementIds}
 $accessProfile.add("entitlements", $entitlementsToAdd.entitlements)
 
 # Access Profile Type
@@ -43,6 +41,37 @@ $accessProfile.add("requestCommentsRequired", $true)
 $accessProfile.add("deniedCommentsRequired", $true)
 
 New-IdentityNowAccessProfile -profile ($accessProfile | convertto-json)
+
+.EXAMPLE
+# Get Owner for Access Profile
+$owner = Search-IdentityNowUserProfile -query "darren.robinson"
+
+# Get Source for Access Proile
+$adSource = Get-IdentityNowSource -name "Active Directory"
+
+# Entitlements
+$entitlements = Search-IdentityNowEntitlements -query "FS-SYDNEY-AUS-ENGINEERING"
+$entitlementIds  = $entitlements  | Select-Object -ExpandProperty id
+
+
+New-IdentityNowAccessProfile -name "Sydney Engineering" `
+    -description  "FS-SYDNEY-AUS-ENGINEERING" `
+    -sourceId $adSource.id `
+    -ownerId $owner.id `
+    -entitlements $entitlementIds `
+    -approvalSchemes "manager" `
+    -requestCommentsRequired `
+    -deniedCommentsRequired 
+
+
+New-IdentityNowAccessProfile -name "Custom PRISM - Modify_Reports" `
+    -description  "Custom PRISM - Modify_Reports" `
+    -sourceId $Source.id `
+    -ownerId $owner.id `
+    -entitlements $entitlementIds `
+    -approvalSchemes "manager" `
+    -requestCommentsRequired `
+    -deniedCommentsRequired 
 
 
 .LINK

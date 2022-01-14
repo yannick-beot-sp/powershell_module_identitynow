@@ -60,15 +60,15 @@ function Search-IdentityNow {
             $sourceObjects = @() 
             
             switch ($indice) {
-                "accessprofiles" { $body = "{`"query`":{`"query`":`"$($query)`"},`"indices`":[`"$($indice)`"],`"includeNested`":$($nested),`"sort`":[`"name`"]}"}
-                "accountactivities" { $body = "{`"query`":{`"query`":`"$($query)`"},`"indices`":[`"$($indice)`"],`"includeNested`":$($nested),`"sort`":[`"id`"]}" }
-                "accounts" {$body = "{`"query`":{`"query`":`"$($query)`"},`"indices`":[`"$($indice)`"],`"includeNested`":$($nested),`"sort`":[`"name`"]}"}
-                "aggregations" {$body = "{`"query`":{`"query`":`"$($query)`"},`"indices`":[`"$($indice)`"],`"includeNested`":$($nested)}"}
-                "entitlements" {$body = "{`"query`":{`"query`":`"$($query)`"},`"indices`":[`"$($indice)`"],`"includeNested`":$($nested),`"sort`":[`"source.name`"]}"}
-                "events" {$body = "{`"query`":{`"query`":`"$($query)`"},`"indices`":[`"$($indice)`"],`"includeNested`":$($nested),`"sort`":[`"-created`"]}"}
-                "identities" {$body = "{`"query`":{`"query`":`"$($query)`"},`"indices`":[`"$($indice)`"],`"includeNested`":$($nested),`"sort`":[`"displayName`"]}"}
-                "roles" {$body = "{`"query`":{`"query`":`"$($query)`"},`"indices`":[`"$($indice)`"],`"includeNested`":$($nested),`"sort`":[`"name`"]}"}
-                Default { $body = "{`"query`":{`"query`":`"$($query)`"},`"indices`":[`"$($indice)`"],`"includeNested`":$($nested),`"sort`":[`"name`"]}" }
+                "accessprofiles" { $body = "{`"query`":{`"query`":`"$( ConvertTo-Json $query )`"},`"indices`":[`"$($indice)`"],`"includeNested`":$($nested),`"sort`":[`"name`"]}"}
+                "accountactivities" { $body = "{`"query`":{`"query`":`"$( ConvertTo-Json $query )`"},`"indices`":[`"$($indice)`"],`"includeNested`":$($nested),`"sort`":[`"id`"]}" }
+                "accounts" {$body = "{`"query`":{`"query`":`"$( ConvertTo-Json $query )`"},`"indices`":[`"$($indice)`"],`"includeNested`":$($nested),`"sort`":[`"name`"]}"}
+                "aggregations" {$body = "{`"query`":{`"query`":`"$( ConvertTo-Json $query )`"},`"indices`":[`"$($indice)`"],`"includeNested`":$($nested)}"}
+                "entitlements" {$body = "{`"query`":{`"query`":`"$( ConvertTo-Json $query )`"},`"indices`":[`"$($indice)`"],`"includeNested`":$($nested),`"sort`":[`"source.name`"]}"}
+                "events" {$body = "{`"query`":{`"query`":`"$( ConvertTo-Json $query )`"},`"indices`":[`"$($indice)`"],`"includeNested`":$($nested),`"sort`":[`"-created`"]}"}
+                "identities" {$body = "{`"query`":{`"query`":`"$( ConvertTo-Json $query )`"},`"indices`":[`"$($indice)`"],`"includeNested`":$($nested),`"sort`":[`"displayName`"]}"}
+                "roles" {$body = "{`"query`":{`"query`":`"$( ConvertTo-Json $query )`"},`"indices`":[`"$($indice)`"],`"includeNested`":$($nested),`"sort`":[`"name`"]}"}
+                Default { $body = "{`"query`":{`"query`":`"$( ConvertTo-Json $query )`"},`"indices`":[`"$($indice)`"],`"includeNested`":$($nested),`"sort`":[`"name`"]}" }
             } 
             
             $results = Invoke-RestMethod -Method Post `

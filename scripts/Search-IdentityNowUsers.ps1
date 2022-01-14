@@ -40,7 +40,7 @@ function Search-IdentityNowUsers {
         try {                         
             # Get Users Based on Query
             $sourceObjects = @() 
-            $Body = "{`"query`":{`"query`":`"$($query)`"},`"indices`":[`"identities`"],`"sort`":[`"displayName`"],`"includeNested`":false}"
+            $Body = "{`"query`":{`"query`":`"$( ConvertTo-Json $query)`"},`"indices`":[`"identities`"],`"sort`":[`"displayName`"],`"includeNested`":false}"
             $results = Invoke-RestMethod -Method Post `
                 -Uri "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/search?limit=$($limit)&query=$($query)" `
                 -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)"; 'Content-Type' = 'application/json' } `

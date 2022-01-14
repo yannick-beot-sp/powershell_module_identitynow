@@ -45,7 +45,7 @@ function Search-IdentityNowEntitlements {
         try {                         
             $results = $null 
             $sourceObjects = @() 
-            $body = "{`"query`":{`"query`":`"$($query)`"},`"indices`":[`"entitlements`"],`"includeNested`":false,`"sort`":[`"source.name`"]}"
+            $body = "{`"query`":{`"query`":`"$( ConvertTo-Json $query)`"},`"indices`":[`"entitlements`"],`"includeNested`":false,`"sort`":[`"source.name`"]}"
             
             $results = Invoke-RestMethod -Method Post `
                 -Uri "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/search?offset=0&limit=$($limit)&count=false" `
