@@ -1,10 +1,10 @@
-function Invoke-IdentityNowAggregateSource {
+function Invoke-IdentityNowAggregateEntitlements {
     <#
 .SYNOPSIS
-    Initiate Aggregation of an IdentityNow Source.
+    Initiate Entitlement Aggregation of an IdentityNow Source.
 
 .DESCRIPTION
-    Initiate Aggregation of an IdentityNow Source.
+    Initiate Entitlement Aggregation of an IdentityNow Source. By default, it aggregate all entitlement types.
 
 .PARAMETER sourceID
     (required) The ID of an IdentityNow Source. eg. 45678
@@ -12,14 +12,14 @@ function Invoke-IdentityNowAggregateSource {
 .PARAMETER source
     Source object (output of Get-IdentityNowSource)
 
-.PARAMETER disableOptimization
-    (optional - switch) Disable Optimization for a full source aggregation
-
 .PARAMETER Wait
     (optional - switch) Wait for the aggregation to complete
 
+.PARAMETER types
+    list of entitlement types. All entitlement types if empty
+
 .EXAMPLE
-    Invoke-IdentityNowAggregateSource -sourceID 12345
+    Invoke-IdentityNowAggregateEntitlements -sourceID 12345
 
 .EXAMPLE
     Invoke-IdentityNowAggregateSource -sourceID 12345 -disableOptimization
@@ -38,15 +38,15 @@ function Invoke-IdentityNowAggregateSource {
         [int]$sourceID,
         [Parameter(Mandatory = $true, ValueFromPipeline = $true, ParameterSetName = "object")]
         $source,
-        [switch]$disableOptimization,
+        [string[]]$types,
         [switch]$Wait
     )
     
     Process {
         $argSplat = @{
-            wait                = $Wait
-            AggregationType     = "Accounts"
-            disableOptimization = $disableOptimization
+            wait            = $Wait
+            AggregationType = "Entitlements"
+            types           = $types
         }
         if ($PSCmdlet.ParameterSetName -eq "object") {
             $argSplat.Add("source", $source)

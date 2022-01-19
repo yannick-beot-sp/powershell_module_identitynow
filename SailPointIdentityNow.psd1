@@ -46,6 +46,7 @@
         'Get-IdentityNowTransform',
         'Get-IdentityNowVACluster',
         'Invoke-IdentityNowAggregateSource',
+        'Invoke-IdentityNowAggregateEntitlements',
         'Invoke-IdentityNowRequest',
         'Invoke-IdentityNowSourceReset',
         'Join-IdentityNowAccount',
