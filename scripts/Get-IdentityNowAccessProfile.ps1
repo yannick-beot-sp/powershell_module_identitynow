@@ -100,7 +100,7 @@ http://darrenjrobinson.com/sailpoint-identitynow
         $v3Token = Get-IdentityNowAuth | Test-IdentityNowToken
         $headers = @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }
         Invoke-RestMethod -Headers $headers -Uri $uri `
-            ? { $_ } | % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.AccessProfile"); $_ }
+            | ? { $_ } | % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.AccessProfile"); $_ }
         return    
     }
 
