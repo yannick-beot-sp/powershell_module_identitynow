@@ -45,6 +45,7 @@
         'Get-IdentityNowTimeZone',
         'Get-IdentityNowTransform',
         'Get-IdentityNowVACluster',
+        'Import-IdentityNowCSV',
         'Invoke-IdentityNowAggregateSource',
         'Invoke-IdentityNowAggregateEntitlements',
         'Invoke-IdentityNowRequest',
