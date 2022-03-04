@@ -64,34 +64,15 @@ function Invoke-IdentityNowSourceReset {
 
         try {
             $reset = Invoke-RestMethod -Method POST -uri $url -Headers $headers
+            Write-Verbose "Task=$($reset | Out-String)"
             if (-not $Wait.IsPresent) {
                 return $reset
             }
-            do {
-                Write-Verbose "Waiting..."
-                Start-Sleep -Seconds 5
-
-                $utime = [int][double]::Parse((Get-Date -UFormat %s))
-                $uri = $((Get-IdentityNowOrg).'Private Base API URI') + "/event/list"
-                $uri = $uri | Set-HttpQueryString -Name "_dc" -Value $utime | `
-                    Set-HttpQueryString -Name "page" -Value 1 | `
-                    Set-HttpQueryString -Name "start" -Value 0 | `
-                    Set-HttpQueryString -Name "limit" -Value 3 | `
-                    Set-HttpQueryString -Name "sort" -Value '[{"property":"timestamp","direction":"DESC"}]' | `
-                    Set-HttpQueryString -Name "filter" -Value "[{`"property`":`"objectType`",`"value`":`"source`"},{`"property`":`"objectId`",`"value`":`"$sourceID`"}]"
-                $tasks = (Invoke-WebRequest -Headers $headers -Uri $uri).Content | ConvertFrom-Json
-                $task = $tasks.items | Where-Object id -eq $reset.attributes.eventId
-                if (-not $task) {
-                    throw "Task not found"
-                }
-                if ($task.status -ne "PENDING") {
-                    return $task
-                }
-
-            } while ($true)
+            Wait-IdentityNowJob -sourceID $SourceId -JobType "SOURCE_RESET" -TaskId $reset.id
+            
         }
         catch {
-            Write-Error "Could not reset source $sourceId $($_)"
+            Write-Error "Could not reset source $SourceId $($_)"
             throw $_
         }
     }

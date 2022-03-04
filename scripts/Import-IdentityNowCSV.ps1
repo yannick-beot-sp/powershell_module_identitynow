@@ -1,15 +1,16 @@
 function Import-IdentityNowCSV {
     <#
 .SYNOPSIS
-Import CSV file for a delimited-file source
-
+    Import CSV file for a delimited-file source
 
 .PARAMETER sourceID
-(Required) The ID of the IdentityNow Source.
+    The ID of the IdentityNow Source.
 
-.PARAMETER path
-Path to the CSV file to send
+.PARAMETER Path
+    Path to the CSV file to send
 
+.PARAMETER Wait
+    Wait for the aggregation to complete
 
 #>
     [cmdletbinding()]
@@ -20,7 +21,9 @@ Path to the CSV file to send
 
         [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
         [ValidateScript({ Test-Path -Path $_ -PathType Leaf }  )]
-        [string]$Path
+        [string]$Path,
+
+        [switch]$Wait
         
     )
   
@@ -50,7 +53,12 @@ Path to the CSV file to send
             ) -join $LF
            
             $url = "$((Get-IdentityNowOrg).'Private Base API URI')/source/loadAccounts/$sourceId"
-            Invoke-RestMethod -Uri $url -Method Post -headers $Headers -body $bodyLines 
+            $aggregate = Invoke-RestMethod -Uri $url -Method Post -headers $Headers -body $bodyLines
+            Write-Verbose "Task=$($aggregate.task)"
+            if (-not $Wait.IsPresent) {
+                return $aggregate.task  
+            }
+            Wait-IdentityNowJob -sourceID $sourceID -JobType "CLOUD_ACCOUNT_AGGREGATION" -TaskId $aggregate.task.id
         }
         catch {
             Write-Error "Upload failed. $($_)" 
