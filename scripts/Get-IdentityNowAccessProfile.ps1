@@ -3,17 +3,26 @@ function Get-IdentityNowAccessProfile {
 .SYNOPSIS
 Get an IdentityNow Access Profile(s).
 
-.DESCRIPTION
-Get an IdentityNow Access Profile(s).
-
 .PARAMETER profileID
-(optional) The profile ID of an IdentityNow Access Profile.
+The profile ID of an IdentityNow Access Profile.
+
+.PARAMETER Name
+The name of an IdentityNow Access Profile.
 
 .EXAMPLE
 Get-IdentityNowAccessProfile 
 
 .EXAMPLE
 Get-IdentityNowAccessProfile -profileID 2c91808466a64e330112a96902ff1f69
+
+.EXAMPLE
+Get-IdentityNowAccessProfile -Name "My Access Profile"
+
+.EXAMPLE
+Get-IdentityNowAccessProfile Name -sw "AD"
+
+.EXAMPLE
+Get-IdentityNowAccessProfile -filter "name sw `"AD`""
 
 .LINK
 http://darrenjrobinson.com/sailpoint-identitynow

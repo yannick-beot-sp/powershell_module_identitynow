@@ -172,7 +172,7 @@ http://darrenjrobinson.com/sailpoint-identitynow
                 $AccessProfile =  ConvertTo-Json  $accessProfileHt -Depth 100
             }
             Write-Verbose "Access Profile=$AccessProfile"
-            
+            Write-Verbose "Url=$url"
             $IDNCreateAP = Invoke-RestMethod -Method Post `
                 -Uri  $url `
                 -Headers $headers `
