@@ -23,6 +23,7 @@
         'Get-IdentityNowCertCampaign',
         'Get-IdentityNowCertCampaignReport',
         'Get-IdentityNowConnectors',
+        'Get-IdentityNowEntitlement',
         'Get-IdentityNowEmailTemplate',
         'Get-IdentityNowGovernanceGroup',
         'Get-IdentityNowIAIRecommendation',
