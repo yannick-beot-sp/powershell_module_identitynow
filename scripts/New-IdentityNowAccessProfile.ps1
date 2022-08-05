@@ -128,7 +128,7 @@ http://darrenjrobinson.com/sailpoint-identitynow
                 if ($json.ownerId) {
                     Write-Verbose "using V2 endpoint"
                     $usingV2 = $true
-                    $url = "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v2/access-profiles"
+                    $url = Get-IdentityNowOrgUrl v2 "/access-profiles"
                 }
                 else {
                     Write-Verbose "using Beta endpoint"

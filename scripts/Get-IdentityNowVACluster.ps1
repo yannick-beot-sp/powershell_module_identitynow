@@ -25,7 +25,7 @@ http://darrenjrobinson.com/sailpoint-identitynow
 
     $v3Token = Get-IdentityNowAuth | Test-IdentityNowToken
     
-    $uri = "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/beta/managed-clusters"
+    $uri = Get-IdentityNowOrgUrl beta "/managed-clusters"
     if ($id) {
         $uri += "/$id"
     }

@@ -42,7 +42,7 @@ function Search-IdentityNowUsers {
             $sourceObjects = @() 
             $Body = "{`"query`":{`"query`":$( ConvertTo-Json $query)},`"indices`":[`"identities`"],`"sort`":[`"displayName`"],`"includeNested`":false}"
             $results = Invoke-RestMethod -Method Post `
-                -Uri "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/search?limit=$($limit)&query=$($query)" `
+                -Uri (Get-IdentityNowOrgUrl v3 "/search?limit=$($limit)&query=$($query)") `
                 -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)"; 'Content-Type' = 'application/json' } `
                 -Body $body               
                             
@@ -55,7 +55,7 @@ function Search-IdentityNowUsers {
                     # Get Next Page
                     [int]$offset = $offset + $limit 
                     $results = Invoke-RestMethod -Method Post `
-                        -Uri "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/search?offset=$($offset)&limit=$($limit)&query=$($query)" `
+                        -Uri (Get-IdentityNowOrgUrl v3 "/search?offset=$($offset)&limit=$($limit)&query=$($query)") `
                         -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)"; 'Content-Type' = 'application/json' } `
                         -Body $Body
 

@@ -42,7 +42,7 @@ function New-IdentityNowUserSourceAccount {
 
     if ($v3Token.access_token) {
         try {                         
-            $createAccount = Invoke-RestMethod -Method Post -Uri "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v2/accounts?sourceId=$($sourceId)&org=$($IdentityNowConfiguration.orgName)" -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)"; "Content-Type" = "application/json"} -Body $account 
+            $createAccount = Invoke-RestMethod -Method Post -Uri (Get-IdentityNowOrgUrl v2 "/accounts?sourceId=$($sourceId)&org=$($IdentityNowConfiguration.orgName)") -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)"; "Content-Type" = "application/json"} -Body $account 
             return $createAccount           
         }
         catch {

@@ -27,7 +27,7 @@ http://darrenjrobinson.com/sailpoint-identitynow
 
     if ($v3Token.access_token) {
         try {
-            $IDNNewRoles = Invoke-RestMethod -Method Post -Uri "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/cc/api/role/create" -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)"; "content-type" = "application/json" } -Body $role
+            $IDNNewRoles = Invoke-RestMethod -Method Post -Uri (Get-IdentityNowOrgUrl cc "/role/create") -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)"; "content-type" = "application/json" } -Body $role
             return $IDNNewRoles
         }
         catch {

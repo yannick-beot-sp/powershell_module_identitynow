@@ -37,11 +37,11 @@ function New-IdentityNowCertCampaign {
 
     if ($v3Token.access_token) {
         try {
-            $createResult = Invoke-RestMethod -Method Post -Uri "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/cc/api/campaign/create" -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)"; "Content-Type" = "application/json" } -Body $campaign
+            $createResult = Invoke-RestMethod -Method Post -Uri (Get-IdentityNowOrgUrl cc "/campaign/create") -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)"; "Content-Type" = "application/json" } -Body $campaign
             # Give IDN a chance to create the campaign. May need longer for very large campaigns
             start-sleep -Seconds 15
             if ($createResult) {
-                $campaignStatus = Invoke-RestMethod -Method Get -Uri "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/cc/api/campaign/get/$($createResult.id)" -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }                                    
+                $campaignStatus = Invoke-RestMethod -Method Get -Uri (Get-IdentityNowOrgUrl cc "/campaign/get/$($createResult.id)") -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }                                    
                 if ($start) {
                     [int]$i = 0
                     do {
@@ -57,7 +57,7 @@ function New-IdentityNowCertCampaign {
                         $tzEncoded = [System.Web.HttpUtility]::UrlEncode($tz)
 
                         $activateBody = "campaignId=$($createResult.id)&timeZone=$($tzEncoded)"
-                        Invoke-RestMethod -Method Post -Uri "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/cc/api/campaign/activate" -Body $activateBody -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }                                    
+                        Invoke-RestMethod -Method Post -Uri (Get-IdentityNowOrgUrl cc "/campaign/activate") -Body $activateBody -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }                                    
                         
                         # Give IDN a chance to activate the campaign. May need longer for very large campaigns
                         start-sleep -Seconds 15

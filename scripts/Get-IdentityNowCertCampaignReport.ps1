@@ -74,7 +74,7 @@ function Get-IdentityNowCertCampaignReport {
                         if ($time -gt (get-date).AddDays( - $($period))) {
                             $utime = [int][double]::Parse((Get-Date -UFormat %s))
                             $campaignReports = $null     
-                            $campaignReports = Invoke-IdentityNowRequest -Method Get -Uri "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/cc/api/campaign/getReports?_dc=$($utime)&campaignId=$($campaign.id)&page=1&start=0&limit=50&sort=%5B%7B%22property%22%3A%22name%22%2C%22direction%22%3A%22ASC%22%7D%5D" -Headers HeadersV3
+                            $campaignReports = Invoke-IdentityNowRequest -Method Get -Uri (Get-IdentityNowOrgUrl cc "/campaign/getReports?_dc=$($utime)&campaignId=$($campaign.id)&page=1&start=0&limit=50&sort=%5B%7B%22property%22%3A%22name%22%2C%22direction%22%3A%22ASC%22%7D%5D") -Headers HeadersV3
                             $reportsOut = @()
                             foreach ($report in $campaignReports) {                    
                                 if ($outputPath) {
@@ -84,7 +84,7 @@ function Get-IdentityNowCertCampaignReport {
                                     if ($report.name.Equals("Campaign Composition Report")) { $outputFile = "$($outputPath)\$($campaign.description) - CompositionReport.csv" }
                                 }
                                 # Get CSV Report                                
-                                $reportDetails = Invoke-RestMethod -Method Get -Uri "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/cc/api/report/get/$($report.taskResultId)?format=csv&name=Export+Campaign+Status+Report&url_signature=$($encodedAuthv3)" -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }                                    
+                                $reportDetails = Invoke-RestMethod -Method Get -Uri (Get-IdentityNowOrgUrl cc "/report/get/$($report.taskResultId)?format=csv&name=Export+Campaign+Status+Report&url_signature=$($encodedAuthv3)") -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }                                    
 
                                 if ($outputPath) {
                                     # Output Report to filesystem
@@ -108,7 +108,7 @@ function Get-IdentityNowCertCampaignReport {
             else {           
                 $utime = [int][double]::Parse((Get-Date -UFormat %s))
                 $campaignReports = $null     
-                $campaignReports = Invoke-IdentityNowRequest -Method Get -Uri "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/cc/api/campaign/getReports?_dc=$($utime)&campaignId=$($campaignID)&page=1&start=0&limit=50&sort=%5B%7B%22property%22%3A%22name%22%2C%22direction%22%3A%22ASC%22%7D%5D" -Headers HeadersV3 
+                $campaignReports = Invoke-IdentityNowRequest -Method Get -Uri (Get-IdentityNowOrgUrl cc "/campaign/getReports?_dc=$($utime)&campaignId=$($campaignID)&page=1&start=0&limit=50&sort=%5B%7B%22property%22%3A%22name%22%2C%22direction%22%3A%22ASC%22%7D%5D") -Headers HeadersV3 
                     
                 if ($campaignReports.count -gt 0) {
                     $reportsOut = @()
@@ -121,7 +121,7 @@ function Get-IdentityNowCertCampaignReport {
                         }
                         
                         # Get CSV Report
-                        $reportDetails = Invoke-RestMethod -Method Get -Uri "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/cc/api/report/get/$($report.taskResultId)?format=csv&name=Export+Campaign+Status+Report&url_signature=$($encodedAuthv3)" -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }                                    
+                        $reportDetails = Invoke-RestMethod -Method Get -Uri (Get-IdentityNowOrgUrl cc "/report/get/$($report.taskResultId)?format=csv&name=Export+Campaign+Status+Report&url_signature=$($encodedAuthv3)") -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }                                    
                         if ($outputPath) {
                             # Output Report to filesystem
                             $reportDetails | out-file $outputFile                                    

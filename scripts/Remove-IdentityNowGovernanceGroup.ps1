@@ -36,7 +36,7 @@ function Remove-IdentityNowGovernanceGroup {
         try {        
             $grpID = @($groupID)
             $ids = (@{ids = $grpID } | convertto-json)
-            $DeleteGovGroup = Invoke-RestMethod -Method Post -Uri "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v2/workgroups/bulk-delete" -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)"; "Content-Type" = "application/json" } -Body $ids
+            $DeleteGovGroup = Invoke-RestMethod -Method Post -Uri (Get-IdentityNowOrgUrl v2 "/workgroups/bulk-delete") -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)"; "Content-Type" = "application/json" } -Body $ids
             return $DeleteGovGroup 
         }
         catch {

@@ -132,7 +132,7 @@ http://darrenjrobinson.com/sailpoint-identitynow
                 }
             }
             
-            $url = "https://$($IdentityNowConfiguration.orgName).identitynow.com/api/profile/update/$($ID)"
+            $url = Get-IdentityNowOrgUrl v1 "/profile/update/$($ID)"
             $response = (Invoke-WebRequest -Uri $url -Method Post -UseBasicParsing -Body ($body | convertto-json -depth 100) -ContentType 'application/json' -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }).Content | ConvertFrom-Json 
             return $response
         }

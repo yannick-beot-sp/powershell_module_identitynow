@@ -41,17 +41,17 @@ function Get-IdentityNowSource {
     
     $v3Token = Get-IdentityNowAuth | Test-IdentityNowToken
     $headers = @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }
-    $v3BaseUrl = "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/sources"
+    $v3BaseUrl = Get-IdentityNowOrgUrl v3 "/sources"
     try {
         if ($PSCmdlet.ParameterSetName -eq "ID") {
             if ($sourceID -match '^\d+$') {
                 Write-Verbose "Use V1 endpoint"
                 if ($sourceID) {
                     if ($accountProfiles) {
-                        $IDNSources = Invoke-RestMethod -Method Get -Uri "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/cc/api/accountProfile/list/$($sourceID)" -Headers $headers
+                        $IDNSources = Invoke-RestMethod -Method Get -Uri (Get-IdentityNowOrgUrl cc "/accountProfile/list/$($sourceID)") -Headers $headers
                     }
                     else {
-                        $IDNSources = Invoke-RestMethod -Method Get -Uri "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/cc/api/source/get/$($sourceID)" -Headers $headers
+                        $IDNSources = Invoke-RestMethod -Method Get -Uri (Get-IdentityNowOrgUrl cc "/source/get/$($sourceID)") -Headers $headers
                     }                
                     return $IDNSources
                 }

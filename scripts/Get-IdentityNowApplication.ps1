@@ -41,10 +41,10 @@ http://darrenjrobinson.com/sailpoint-identitynow
         $utime = [int][double]::Parse((Get-Date -UFormat %s))
         try {
             if ($Id) {
-                $uri = "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/cc/api/app/get/$($Id)?_dc=$($utime)"
+                $uri = Get-IdentityNowOrgUrl cc "/app/get/$($Id)?_dc=$($utime)"
             }
             else {
-                $uri = "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/cc/api/app/list?&_dc=$($utime)"
+                $uri = Get-IdentityNowOrgUrl cc "/app/list?&_dc=$($utime)"
                 if ($org.IsPresent) {
                     $uri = $uri | Set-HttpQueryString -Name "filter" -Value "org"
                 }

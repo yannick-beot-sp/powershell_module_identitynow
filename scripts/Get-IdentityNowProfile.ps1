@@ -31,11 +31,11 @@ http://darrenjrobinson.com/sailpoint-identitynow
     if ($v3Token.access_token) {
         try {
             if ($ID) {
-                $IDNProfile = Invoke-RestMethod -Method Get -Uri "https://$($IdentityNowConfiguration.orgName).identitynow.com/api/profile/get/$($ID)" -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }                                                                                     
+                $IDNProfile = Invoke-RestMethod -Method Get -Uri (Get-IdentityNowOrgUrl v1 "/profile/get/$($ID)") -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }                                                                                     
                 return $IDNProfile
             }
             else {
-                $IDNProfile = Invoke-RestMethod -Method Get -Uri "https://$($IdentityNowConfiguration.orgName).identitynow.com/api/profile/list" -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }
+                $IDNProfile = Invoke-RestMethod -Method Get -Uri (Get-IdentityNowOrgUrl v1 "/profile/list") -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }
                 return $IDNProfile
             }
         }

@@ -39,7 +39,7 @@ http://darrenjrobinson.com/sailpoint-identitynow
 
             $identityAttrBody = $identityAttr | convertto-json -Depth 4
             $identityAttrBody = $identityAttrBody.Replace('"targets": [],',"")
-            $updateAttribute = Invoke-RestMethod -Method Post -Uri "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/cc/api/identityAttribute/update?name=$($attribute)" -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" ; "content-type" = "application/json"} -Body $identityAttrBody
+            $updateAttribute = Invoke-RestMethod -Method Post -Uri (Get-IdentityNowOrgUrl cc "/identityAttribute/update?name=$($attribute)") -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" ; "content-type" = "application/json"} -Body $identityAttrBody
             return $updateAttribute
         }
         catch {

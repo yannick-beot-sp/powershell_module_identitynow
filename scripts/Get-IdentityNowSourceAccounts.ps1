@@ -41,7 +41,7 @@ function Get-IdentityNowSourceAccounts {
             do {
                 $results = $null
                 try {
-                    $results = Invoke-RestMethod -Method Get -Uri "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/cc/api/source/getAccounts?id=$($sourceID)&limit=$($searchLimit)&start=$($offset)" -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }
+                    $results = Invoke-RestMethod -Method Get -Uri (Get-IdentityNowOrgUrl cc "/source/getAccounts?id=$($sourceID)&limit=$($searchLimit)&start=$($offset)") -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }
                 }
                 catch {
                     write-host "Sleeping 2 seconds:$($_)"
@@ -68,7 +68,7 @@ function Get-IdentityNowSourceAccounts {
                 do {
                     $result = $null
                     try {
-                        $result = Invoke-RestMethod -Method Get -Uri "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/beta/accounts/$($object.id)" -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }
+                        $result = Invoke-RestMethod -Method Get -Uri (Get-IdentityNowOrgUrl beta "/accounts/$($object.id)") -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }
 
                     }
                     catch {

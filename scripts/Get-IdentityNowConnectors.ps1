@@ -16,7 +16,7 @@ Get-IdentityNowConnectors
 
     $v3Token = Get-IdentityNowAuth | Test-IdentityNowToken
     
-    $uri = "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/cc/api/connector/list"
+    $uri = Get-IdentityNowOrgUrl cc "/connector/list"
     Write-Verbose "Get connectors from $uri"
     
         

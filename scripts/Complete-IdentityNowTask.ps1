@@ -27,7 +27,7 @@ http://darrenjrobinson.com/sailpoint-identitynow
 
     if ($v3Token.access_token) {
         try {
-            $Task = Invoke-RestMethod -Method Post -Uri "https://$($IdentityNowConfiguration.orgName).identitynow.com/api/task/complete/$($taskID)" -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }                                                                                     
+            $Task = Invoke-RestMethod -Method Post -Uri (Get-IdentityNowOrgUrl v1 "/task/complete/$($taskID)") -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }                                                                                     
             return $Task
         }
         catch {

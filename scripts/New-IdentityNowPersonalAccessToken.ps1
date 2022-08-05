@@ -38,7 +38,7 @@ https://community.sailpoint.com/t5/IdentityNow-Wiki/IdentityNow-REST-API-Create-
         try {    
             $PATBody = @{ }
             $PATBody.add("name", $name)
-            $IDNNewPAT = Invoke-RestMethod -Method Post -Uri "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/beta/personal-access-tokens" -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)"; "Content-Type" = "application/json" } -Body ($PATBody | convertTo-json)
+            $IDNNewPAT = Invoke-RestMethod -Method Post -Uri (Get-IdentityNowOrgUrl beta "/personal-access-tokens") -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)"; "Content-Type" = "application/json" } -Body ($PATBody | convertTo-json)
             return $IDNNewPAT
         }
         catch {

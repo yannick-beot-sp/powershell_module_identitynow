@@ -27,7 +27,7 @@ http://darrenjrobinson.com/sailpoint-identitynow
 
     if ($v3Token.access_token) {
         try {
-                $IDNETemplate = Invoke-RestMethod -Method Post -Uri "https://$($IdentityNowConfiguration.orgName).identitynow.com/api/emailTemplate/update" -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)"; "content-type" = "application/json" } -body $template                                                                                    
+                $IDNETemplate = Invoke-RestMethod -Method Post -Uri (Get-IdentityNowOrgUrl v1 "/emailTemplate/update") -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)"; "content-type" = "application/json" } -body $template                                                                                    
                 return $IDNETemplate
         }
         catch {

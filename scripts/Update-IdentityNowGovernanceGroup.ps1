@@ -55,7 +55,7 @@ function Update-IdentityNowGovernanceGroup {
 
     if ($v3Token.access_token) {
         try {
-            $UpdateGovGroup = Invoke-RestMethod -Method Post -Uri "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v2/workgroups/$($groupID)/members" -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)"; "Content-Type" = "application/json" } -Body $update
+            $UpdateGovGroup = Invoke-RestMethod -Method Post -Uri (Get-IdentityNowOrgUrl v2 "/workgroups/$($groupID)/members") -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)"; "Content-Type" = "application/json" } -Body $update
             return $UpdateGovGroup 
         }
         catch {

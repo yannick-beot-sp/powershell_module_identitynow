@@ -27,7 +27,7 @@ http://darrenjrobinson.com/sailpoint-identitynow
 
     if ($v3Token.access_token) {
         try {
-            $IDNDeleteRole = Invoke-RestMethod -Method Post -Uri "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/cc/api/role/delete/$($roleID)" -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)"; } -Body $update
+            $IDNDeleteRole = Invoke-RestMethod -Method Post -Uri (Get-IdentityNowOrgUrl cc "/role/delete/$($roleID)") -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)"; } -Body $update
             return $IDNDeleteRole
         }
         catch {

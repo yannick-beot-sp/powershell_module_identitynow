@@ -37,7 +37,7 @@ function Get-IdentityNowSourceSchema {
                 if ($groupOnly.IsPresent) {
                     throw "Invalid arguments. 'groupOnly' switch only available for v3"
                 }
-                $sourceSchema = Invoke-RestMethod -method Get -uri "https://$($IdentityNowConfiguration.orgName).identitynow.com/cc/api/source/getAccountSchema/$($sourceID)" -Headers $headers
+                $sourceSchema = Invoke-RestMethod -method Get -uri (Get-IdentityNowOrgUrl cc"/source/getAccountSchema/$($sourceID)") -Headers $headers
                 return $sourceSchema | ? { $_ } | % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.SchemaV1"); $_ }
             }
             else {

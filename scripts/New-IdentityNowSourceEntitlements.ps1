@@ -58,7 +58,7 @@ function New-IdentityNowSourceEntitlements {
         try {                         
             $csv = $entitlements | ConvertTo-Csv -NoTypeInformation 
 
-            $uploadEntitlements = Invoke-RestMethod -Uri "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/cc/api/source/loadEntitlements/$($sourceID)" `
+            $uploadEntitlements = Invoke-RestMethod -Uri (Get-IdentityNowOrgUrl cc "/source/loadEntitlements/$($sourceID)") `
             -Method "POST" `
             -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)"; "Accept-Encoding" = "gzip, deflate, br" } `
             -ContentType "multipart/form-data; boundary=----WebKitFormBoundaryU1hSZTy7cff3WW27" `

@@ -31,7 +31,7 @@ function Search-IdentityNowAccessProfiles {
         $body = "{`"query`":{`"query`":$( ConvertTo-Json $query)},`"indices`":[`"accessprofiles`"],`"includeNested`":false,`"sort`":[`"source.name`"]}"
         Write-Verbose "body=$body"
 
-        $uri = "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/search"
+        $uri = Get-IdentityNowOrgUrl v3 "/search"
         Write-Verbose "Get Access Profiles from $uri"
           
         Get-IdentityNowPaginatedCollection -uri $uri -Method Post -Body $body | `

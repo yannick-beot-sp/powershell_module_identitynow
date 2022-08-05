@@ -54,7 +54,7 @@ Path to the file to send
             }
             else {
 
-                $url = "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/sources/$sourceID/upload-connector-file"
+                $url = Get-IdentityNowOrgUrl v3 "/sources/$sourceID/upload-connector-file"
                 $filename = [System.IO.Path]::GetFileName($Path)
                 $fileBytes = [System.IO.File]::ReadAllBytes($Path);
                 $fileEnc = [System.Text.Encoding]::GetEncoding('UTF-8').GetString($fileBytes);

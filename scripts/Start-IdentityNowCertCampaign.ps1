@@ -45,7 +45,7 @@ function Start-IdentityNowCertCampaign {
                     # Activate Campaign
                     $tzEncoded = [System.Web.HttpUtility]::UrlEncode($timezone)
                     $activateBody = "campaignId=$($campaignID)&timeZone=$($tzEncoded)"
-                    Invoke-RestMethod -Method Post -Uri "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/cc/api/campaign/activate" -Body $activateBody -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }                                    
+                    Invoke-RestMethod -Method Post -Uri (Get-IdentityNowOrgUrl cc "/campaign/activate") -Body $activateBody -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }                                    
                     # Give it a 10 moments 
                     start-sleep -Seconds 10
                     $campaignStatus = Get-IdentityNowCertCampaign -campaignID $campaignID -completed $false

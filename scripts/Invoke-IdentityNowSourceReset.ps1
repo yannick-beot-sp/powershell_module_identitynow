@@ -57,7 +57,7 @@ function Invoke-IdentityNowSourceReset {
         }
         Write-Verbose "SourceID=$SourceID"
 
-        $url = "https://$($IdentityNowConfiguration.orgName).identitynow.com/api/source/reset/$sourceID"
+        $url = Get-IdentityNowOrgUrl v1 "/source/reset/$sourceID"
         if ($skip) {
             $url = $url | Set-HttpQueryString -Name "skip" -Value $skip
         }

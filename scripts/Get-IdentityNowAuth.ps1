@@ -182,7 +182,7 @@ http://darrenjrobinson.com/sailpoint-identitynow
     
     # Get v3 oAuth Token
     # oAuth URI
-    $oAuthURI = "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/oauth/token"
+    $oAuthURI = Get-IdentityNowOrgUrl Base "/oauth/token"
     if ($IdentityNowConfiguration.JWT.refresh_token) {
 
         if ((Convert-UnixTime (Get-JWTDetails $IdentityNowConfiguration.JWT.refresh_token).exp) -lt (get-date) ) {

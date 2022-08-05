@@ -57,7 +57,7 @@ Get-IdentityNowPublicIdentity alias -sw sailpoint
 
     )
 
-    $uri = "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/public-identities"
+    $uri = Get-IdentityNowOrgUrl v3 "/public-identities"
     
     if ($PSCmdlet.ParameterSetName -ne "Filter") {
         $FieldName = $FieldName.ToLower()

@@ -107,7 +107,7 @@ http://darrenjrobinson.com/sailpoint-identitynow
 
             # Get Schema        
             $sourceSchema = $null                
-            $sourceSchema = Invoke-IdentityNowRequest -Method Get -Uri "https://$($orgName).api.identitynow.com/cc/api/source/getAccountSchema/$($source.id)" -headers HeadersV3         
+            $sourceSchema = Invoke-IdentityNowRequest -Method Get -Uri  (Get-IdentityNowOrgUrl cc "/source/getAccountSchema/$($source.id)") -headers HeadersV3         
 
             if ($sourceSchema) {
                 # Output Schema to File 

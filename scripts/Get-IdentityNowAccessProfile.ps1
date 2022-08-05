@@ -102,7 +102,7 @@ http://darrenjrobinson.com/sailpoint-identitynow
     )
     Write-Verbose "PSCmdlet.ParameterSetName=$($PSCmdlet.ParameterSetName)"
 
-    $uri = (Get-IdentityNowOrg).Beta + "/access-profiles"
+    $uri = Get-IdentityNowOrgUrl Beta "/access-profiles"
     
     if ($PSCmdlet.ParameterSetName -eq "Id") {
         $uri += "/$profileID"

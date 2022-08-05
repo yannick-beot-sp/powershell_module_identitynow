@@ -21,7 +21,7 @@ Schema as a JSON string
     
     try {
 
-        $uri = "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/sources/$id/schemas"
+        $uri = Get-IdentityNowOrgUrl v3 "/sources/$id/schemas"
         $response = Invoke-RestMethod -Uri $uri -Method Post `
             -Body $schema `
             -ContentType 'application/json' `

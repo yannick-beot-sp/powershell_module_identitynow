@@ -31,11 +31,11 @@ function Get-IdentityNowGovernanceGroup {
     if ($v3Token.access_token) {
         try {
             if ($groupID) {
-                $IDNGroups = Invoke-RestMethod -Method Get -Uri "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v2/workgroups/$($groupID)" -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }
+                $IDNGroups = Invoke-RestMethod -Method Get -Uri (Get-IdentityNowOrgUrl v2 "/workgroups/$($groupID)") -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }
                 return $IDNGroups
             }
             else {
-                $IDNGroups = Invoke-RestMethod -Method Get -Uri "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v2/workgroups?org=$($IdentityNowConfiguration.orgName)" -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }
+                $IDNGroups = Invoke-RestMethod -Method Get -Uri (Get-IdentityNowOrgUrl v2 "/workgroups?org=$($IdentityNowConfiguration.orgName)") -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }
                 return $IDNGroups
             }
         }

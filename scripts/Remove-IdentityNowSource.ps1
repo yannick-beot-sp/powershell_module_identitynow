@@ -44,23 +44,20 @@ written by Sean McGovern 11/20/2019 (twitter @410sean)
         try {
             if ($sourceID -match '^\d+$') {
                 Write-Verbose "Use V1 endpoint"
-    
-    
-                $privateuribase = "https://$($IdentityNowConfiguration.orgName).api.identitynow.com"
-                $url = "$privateuribase/cc/api/source/delete/$sourceid"
+                $url =  Get-IdentityNowOrgUrl cc "/source/delete/$sourceid"
                 $response = Invoke-WebRequest -Uri $url -Method Post -UseBasicParsing -Headers $headers
                 Write-Verbose "Source deleted"
             }
             else {
                 Write-Verbose "Use V3 endpoint"
-                $url = "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/sources/$sourceID"
+                $url = Get-IdentityNowOrgUrl v3 "/sources/$sourceID"
                 $response = Invoke-RestMethod -Uri $url -Method Delete -Headers $headers
 
                 if ($Wait.IsPresent) {
-                    $taskurl = "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/task-status/$($response.id)"
+                    $taskurl = Get-IdentityNowOrgUrl v3 "/task-status/$($response.id)"
                     do {
                         try {
-                            $response = Invoke-RestMethod -Uri $url -Method Get -Headers $headers
+                            $response = Invoke-RestMethod -Uri $taskurl -Method Get -Headers $headers
                             Write-Verbose "Got task status: $response"
                         }
                         catch {

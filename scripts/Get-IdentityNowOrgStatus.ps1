@@ -21,7 +21,7 @@ http://darrenjrobinson.com/sailpoint-identitynow
     
     if ($v3Token.access_token) {
         try {
-            $status = Invoke-RestMethod -Method Get -Uri "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/cc/api/system/getStatus" -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }                                                                                     
+            $status = Invoke-RestMethod -Method Get -Uri (Get-IdentityNowOrgUrl cc "/system/getStatus") -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }                                                                                     
             return $status
         }
         catch {

@@ -34,7 +34,7 @@ http://darrenjrobinson.com/sailpoint-identitynow
 
     if ($v3Token.access_token) {
         try {
-            $IDNUpdateTransform = Invoke-RestMethod -Method Post -Uri "https://$($IdentityNowConfiguration.orgName).identitynow.com/api/transform/update/$($ID)" -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)"; "content-type" = "application/json" } -Body $transform
+            $IDNUpdateTransform = Invoke-RestMethod -Method Post -Uri (Get-IdentityNowOrgUrl v1 "/transform/update/$($ID)") -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)"; "content-type" = "application/json" } -Body $transform
             return $IDNUpdateTransform
         }
         catch {

@@ -48,7 +48,7 @@ function Search-IdentityNowEntitlements {
             $body = "{`"query`":{`"query`":$( ConvertTo-Json $query)},`"indices`":[`"entitlements`"],`"includeNested`":false,`"sort`":[`"source.name`"]}"
             Write-Verbose "body=$body"
             $results = Invoke-RestMethod -Method Post `
-                -Uri "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/search?offset=0&limit=$($limit)&count=false" `
+                -Uri (Get-IdentityNowOrgUrl v3 "/search?offset=0&limit=$($limit)&count=false") `
                 -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)"; 'Content-Type' = 'application/json' } `
                 -Body $body                       
 
@@ -70,7 +70,7 @@ function Search-IdentityNowEntitlements {
                         # Get Next Page
                         [int]$offset = $offset + $limit 
                         $results = Invoke-RestMethod -Method Post `
-                            -Uri "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/search?offset=$($offset)&limit=$($limit)&count=false" `
+                            -Uri (Get-IdentityNowOrgUrl v3 "/search?offset=$($offset)&limit=$($limit)&count=false") `
                             -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" ; 'Content-Type' = 'application/json' }  `
                             -Body $body
 

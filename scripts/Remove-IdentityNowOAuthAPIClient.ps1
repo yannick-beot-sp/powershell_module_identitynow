@@ -27,7 +27,7 @@ http://darrenjrobinson.com/sailpoint-identitynow
 
     if ($v3Token.access_token) {
         try {
-            $IDNDeleteOAuthClient = Invoke-RestMethod -Method Delete -Uri "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/beta/oauth-clients/$($ID)" -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)"; "Content-Type" = "application/json"} 
+            $IDNDeleteOAuthClient = Invoke-RestMethod -Method Delete -Uri (Get-IdentityNowOrgUrl beta "/oauth-clients/$($ID)") -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)"; "Content-Type" = "application/json"} 
             return $IDNDeleteOAuthClient
         }
         catch {

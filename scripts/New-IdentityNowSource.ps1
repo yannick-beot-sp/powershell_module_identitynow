@@ -72,8 +72,7 @@ written by Sean McGovern 11/20/2019 (twitter @410sean)
 
     if ($PSCmdlet.ParameterSetName -eq "V1") {
         try {
-            $privateuribase = "https://$($IdentityNowConfiguration.orgName).api.identitynow.com"
-            $url = "$privateuribase/cc/api/source/create"
+            $url =  Get-IdentityNowOrgUrl cc "/source/create"
             $body = "serviceDefinitionName=$connectorname&name=$name&description=$description&sourceType=$sourcetype&serviceType=app"
             $response = Invoke-WebRequest -Uri $url -Method Post -UseBasicParsing -Body $body -ContentType 'application/x-www-form-urlencoded' -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }
             $sourceAccountProfile = $response.Content | ConvertFrom-Json
@@ -112,7 +111,7 @@ written by Sean McGovern 11/20/2019 (twitter @410sean)
     
         try {
 
-            $uri = "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/sources"
+            $uri = Get-IdentityNowOrgUrl v3 "/sources"
             $response = Invoke-RestMethod -Uri $uri -Method Post `
                 -Body ($body | ConvertTo-Json -Depth 100) `
                 -ContentType 'application/json' `

@@ -30,7 +30,7 @@ http://darrenjrobinson.com/sailpoint-identitynow
     
     if ($v3Token.access_token) {
         try {
-            $IDNProfile = Invoke-RestMethod -Method Get -Uri "https://$($IdentityNowConfiguration.orgName).identitynow.com/api/profile/list" -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }
+            $IDNProfile = Invoke-RestMethod -Method Get -Uri (Get-IdentityNowOrgUrl v1 "/profile/list") -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }
             $identityProfileOrderSelect = $IDNProfile | Select-Object -Property name, id, priority | Sort-Object -Property priority 
 
             $iProfiles = @()      

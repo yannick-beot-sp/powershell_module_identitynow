@@ -69,44 +69,44 @@ function Get-IdentityNowAccountActivities {
             
             switch ($requestedBy, $requestedFor, $type, $searchLimit, $limit) {
                 { $requestedFor } {
-                    $searchURLBase = "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/account-activities?requested-for=$($requestedFor)&limit=$($limit)"
-                    Write-Verbose "RequestedFor Case - https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/account-activities?limit=250"
+                    $searchURLBase = Get-IdentityNowOrgUrl v3 "/account-activities?requested-for=$($requestedFor)&limit=$($limit)"
+                    Write-Verbose "RequestedFor Case - $searchURLBase"
                 }
                 { $requestedBy -and $requestedFor } {
-                    $searchURLBase = "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/account-activities?requested-for=$($requestedFor)&requested-by=$($requestedBy)&limit=$($limit)"
-                    Write-Verbose "RequestedBy and RequestedFor Case - https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/account-activities?limit=250"
+                    $searchURLBase = Get-IdentityNowOrgUrl v3 "/account-activities?requested-for=$($requestedFor)&requested-by=$($requestedBy)&limit=$($limit)"
+                    Write-Verbose "RequestedBy and RequestedFor Case - $searchURLBase"
                 }
                 { $requestedBy } {
-                    $searchURLBase = "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/account-activities?requested-by=$($requestedBy)&limit=$($limit)"
-                    Write-Verbose "RequestedBy Case - https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/account-activities?limit=250"
+                    $searchURLBase = Get-IdentityNowOrgUrl v3 "/account-activities?requested-by=$($requestedBy)&limit=$($limit)"
+                    Write-Verbose "RequestedBy Case - $searchURLBase"
                 }                        
                 { $requestedFor -and $type} {
-                    $searchURLBase = "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/account-activities?requested-for=$($requestedFor)&type=$($type)&limit=$($limit)"
-                    Write-Verbose "RequestedFor and Type Case - https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/account-activities?requested-for=$($requestedFor)&type=$($type)&limit=$($limit)"
+                    $searchURLBase = Get-IdentityNowOrgUrl v3 "/account-activities?requested-for=$($requestedFor)&type=$($type)&limit=$($limit)"
+                    Write-Verbose "RequestedFor and Type Case - $searchURLBase"
                 }
                 { $requestedBy -and $requestedFor -and $type} {
-                    $searchURLBase = "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/account-activities?requested-for=$($requestedFor)&requested-by=$($requestedBy)&type=$($type)&limit=$($limit)"
-                    Write-Verbose "RequestedBy and RequestedFor and Type Case - https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/account-activities?requested-for=$($requestedFor)&requested-by=$($requestedBy)&type=$($type)&limit=$($limit)"
+                    $searchURLBase = Get-IdentityNowOrgUrl v3 "/account-activities?requested-for=$($requestedFor)&requested-by=$($requestedBy)&type=$($type)&limit=$($limit)"
+                    Write-Verbose "RequestedBy and RequestedFor and Type Case - $searchURLBase"
                 }
                 { $requestedBy -and $type} {
-                    $searchURLBase = "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/account-activities?requested-by=$($requestedBy)&type=$($type)&limit=$($limit)"
-                    Write-Verbose "RequestedBy and Type Case - https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/account-activities?requested-by=$($requestedBy)&type=$($type)&limit=$($limit)"
+                    $searchURLBase = Get-IdentityNowOrgUrl v3 "/account-activities?requested-by=$($requestedBy)&type=$($type)&limit=$($limit)"
+                    Write-Verbose "RequestedBy and Type Case - $searchURLBase"
                 }           
                 {$regardingIdentity} {
-                    $searchURLBase = "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/account-activities?regarding-identity=$($regardingIdentity)&limit=$($limit)"
-                    Write-Verbose "RegardingIdentity Case - https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/account-activities?regarding-identity=$($regardingIdentity)&limit=$($limit)"
+                    $searchURLBase = Get-IdentityNowOrgUrl v3 "/account-activities?regarding-identity=$($regardingIdentity)&limit=$($limit)"
+                    Write-Verbose "RegardingIdentity Case - $searchURLBase"
                 }
                 {$regardingIdentity -and $type} {
-                    $searchURLBase = "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/account-activities?regarding-identity=$($regardingIdentity)&type=$($type)&limit=$($limit)"
-                    Write-Verbose "RegardingIdentity and Type Case - https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/account-activities?regarding-identity=$($regardingIdentity)&type=$($type)&limit=$($limit)"
+                    $searchURLBase = Get-IdentityNowOrgUrl v3 "/account-activities?regarding-identity=$($regardingIdentity)&type=$($type)&limit=$($limit)"
+                    Write-Verbose "RegardingIdentity and Type Case - $searchURLBase"
                 }
                 { $type } {
-                    $searchURLBase = "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/account-activities?type=$($type)&limit=$($limit)"
-                    Write-Verbose "Type Case - https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/account-activities?limit=250"
+                    $searchURLBase = Get-IdentityNowOrgUrl v3 "/account-activities?type=$($type)&limit=$($limit)"
+                    Write-Verbose "Type Case - $searchURLBase"
                 }
                 default {
-                    $searchURLBase = "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/account-activities?limit=250"
-                    Write-Verbose "Default Case - https://$($IdentityNowConfiguration.orgName).api.identitynow.com/v3/account-activities?limit=250"
+                    $searchURLBase = Get-IdentityNowOrgUrl v3 "/account-activities?limit=250"
+                    Write-Verbose "Default Case - $searchURLBase"
                 }
             }
 

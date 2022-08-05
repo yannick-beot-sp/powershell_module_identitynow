@@ -23,7 +23,7 @@ function Test-IdentityNowCredentials {
     if ($IdentityNowConfiguration.v2) {
         try {
             $IDNCluster = $null 
-            $IDNCluster = Invoke-IdentityNowRequest -Method Get -Uri "https://$($IdentityNowConfiguration.orgName).identitynow.com/api/cluster/list" -headers Headersv2_JSON
+            $IDNCluster = Invoke-IdentityNowRequest -Method Get -Uri (Get-IdentityNowOrgUrl v1 "/cluster/list") -headers Headersv2_JSON
             if ($IDNCluster) {
                 Write-Verbose "v2 Output: $($IDNCluster)"
                 "Validated APIv2 credentials."
@@ -59,7 +59,7 @@ function Test-IdentityNowCredentials {
         if ($IdentityNowConfiguration.PAT) { 
             try {
                 # oAuth URI
-                $oAuthURI = "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/oauth/token" 
+                $oAuthURI = Get-IdentityNowOrgUrl base "/oauth/token" 
 
                 $oAuthTokenBody = @{
                     grant_type    = "client_credentials"
@@ -72,7 +72,7 @@ function Test-IdentityNowCredentials {
                     $requestHeaders = @{Authorization = "Bearer $($v3PAT.access_token)" }
                     $idnProfiles = $null 
                     $idnProfiles = Invoke-RestMethod -Method Get `
-                        -Uri "https://$($IdentityNowConfiguration.orgName).identitynow.com/api/profile/list" `
+                        -Uri (Get-IdentityNowOrgUrl v1 "/profile/list") `
                         -Headers $requestHeaders  
                     if ($idnProfiles) {
                         "Validated Personal Access Token."

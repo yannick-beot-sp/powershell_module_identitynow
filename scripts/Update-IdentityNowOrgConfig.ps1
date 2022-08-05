@@ -46,7 +46,7 @@ function Update-IdentityNowOrgConfig {
 
     if ($v3Token.access_token) {
         try {
-            $IDNOrgConfig = Invoke-RestMethod -Method Patch -Uri "https://$($IdentityNowConfiguration.orgName).identitynow.com/api/v2/org" -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)"; "Content-Type" = "application/json"  } -body $update
+            $IDNOrgConfig = Invoke-RestMethod -Method Patch -Uri (Get-IdentityNowOrgUrl v1 "/v2/org") -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)"; "Content-Type" = "application/json"  } -body $update
             return $IDNOrgConfig
         }
         catch {

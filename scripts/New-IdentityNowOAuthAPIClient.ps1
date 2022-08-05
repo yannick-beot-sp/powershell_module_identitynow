@@ -58,7 +58,7 @@ http://darrenjrobinson.com/sailpoint-identitynow
             $oAuthClientBody.add("refreshTokenValiditySeconds", '86400')
             $oAuthClientBody.add("accessType", 'OFFLINE')
 
-            $IDNNewoAuthAPIClient = Invoke-RestMethod -Method Post -Uri "https://$($IdentityNowConfiguration.orgName).api.identitynow.com/beta/oauth-clients" -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)"; "Content-Type" = "application/json" } -Body ($oAuthClientBody | convertTo-json)
+            $IDNNewoAuthAPIClient = Invoke-RestMethod -Method Post -Uri (Get-IdentityNowOrgUrl beta "/oauth-clients") -Headers @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)"; "Content-Type" = "application/json" } -Body ($oAuthClientBody | convertTo-json)
             return $IDNNewoAuthAPIClient            
         }
         catch {
