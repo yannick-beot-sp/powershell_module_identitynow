@@ -133,7 +133,7 @@ Get-IdentityNowEntitlement -sorters name -filters "requestable eq `"false`""
  
     }
     catch {
-        Write-Error "Could not get Access Profile from $uri. $($_)"
+        Write-Error "Could not get Entitlements from $uri. $($_)"
         throw $_ 
     }
 }
