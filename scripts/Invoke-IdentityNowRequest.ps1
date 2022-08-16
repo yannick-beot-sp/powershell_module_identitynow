@@ -3,25 +3,23 @@ function Invoke-IdentityNowRequest {
 .SYNOPSIS
 Submit an IdentityNow API Request.
 
-.DESCRIPTION
-Submit an IdentityNow API Request.
 
 .PARAMETER uri
-(required for Full URI parameter set) API URI
+API URI
 
 .PARAMETER path
-(Required for path parameter set) specify the rest of the api query after the base api url as determined when picking the API variable 
+specify the rest of the api query after the base api url as determined when picking the API variable 
 
 .PARAMETER API
-(required for path parameter set) will determine the base url
-Private will use the base url https://{your org}.api.identitynow.com/cc/api/
-V1  will use the base url https://{your org}.identitynow.com/api/
-V2  will use the base url https://{your org}.api.identitynow.com/v2/
-V3  will use the base url https://{your org}.api.identitynow.com/v3/
-Beta  will use the base url https://{your org}.api.identitynow.com/beta/
+Will determine the base url
+CC will use the base url https://{your org}.api.identitynow.com/cc/api/
+V1 will use the base url https://{your org}.identitynow.com/api/
+V2 will use the base url https://{your org}.api.identitynow.com/v2/
+V3 will use the base url https://{your org}.api.identitynow.com/v3/
+Beta will use the base url https://{your org}.api.identitynow.com/beta/
 
 .PARAMETER method
-(required) API Method
+HTTP Method
 e.g Post, Get, Patch, Delete
 
 .PARAMETER headers
@@ -33,10 +31,13 @@ Headersv3_JSON is JWT oAuth with Content-Type set for application/json
 Headersv3_JSON-Patch is JWT oAuth with Content-Type set for application/json-patch+json
 
 .PARAMETER body
-(optional - JSON) Payload for a webrequest
+Payload for a webrequest. If an oject is passed, it is serialized in a String
 
 .PARAMETER json
-(optional) Return IdentityNow Request response as JSON.
+Parse response as JSON.
+
+.PARAMETER TypeName
+For JSON output, add typename
 
 .EXAMPLE
 Invoke-IdentityNowRequest -method Get -headers Headersv2 -uri "https://YOURORG.api.identitynow.com/v2/accounts?sourceId=12345&limit=20&org=YOURORG"
@@ -77,11 +78,17 @@ http://darrenjrobinson.com/sailpoint-identitynow
         
         $body,
         
-        [switch]$json
+        [switch]$json,
+
+        [string]$TypeName
     )
 
     Write-Verbose "> Invoke-IdentityNowRequest"
     Write-Verbose "PSCmdlet.ParameterSetName=$($PSCmdlet.ParameterSetName)"
+
+    if ((-not $json.IsPresent) -and $TypeName) {
+        throw "TypeName cannot be defined for non-Json output"
+    }
 
     if ($PSCmdlet.ParameterSetName -eq "Path") {
         # For compatibility
@@ -152,7 +159,8 @@ http://darrenjrobinson.com/sailpoint-identitynow
         $result = Invoke-WebRequest @argSplat
         Write-Verbose "< Invoke-IdentityNowRequest"
         if ($json.IsPresent) {
-            return $result.content | ConvertFrom-Json
+            return $result.content | ConvertFrom-Json `
+                | ? { $_ } | % { if ($TypeName) { $_.PSObject.TypeNames.Insert(0, $TypeName) }; $_ }
         }
         else {
             return $result.content

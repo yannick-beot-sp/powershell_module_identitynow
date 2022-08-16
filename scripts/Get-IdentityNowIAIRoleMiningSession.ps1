@@ -69,8 +69,7 @@ Get-IdentityNowIAIRoleMiningSession -sorters "-createdDate"
 
     if ($PSCmdlet.ParameterSetName -eq "Id") {
         $uri += "/$Id"
-        Invoke-IdentityNowRequest -Uri $uri -Method Get -Json `
-            | ? { $_ } | % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.RoleMiningSession"); $_ }
+        Invoke-IdentityNowRequest -Uri $uri -Method Get -Json -TypeName "IdentityNow.RoleMiningSession"
         return    
     }
 

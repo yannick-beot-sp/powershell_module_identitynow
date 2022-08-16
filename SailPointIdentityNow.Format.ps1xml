@@ -48,6 +48,53 @@
             </TableRowEntries>
          </TableControl>
       </View>
+      <!-- IdentityNowSource -->
+      <View>
+         <Name>IdentityNowSource</Name>
+         <ViewSelectedBy>
+            <TypeName>IdentityNow.Source</TypeName>
+         </ViewSelectedBy>
+         <TableControl>
+            <TableHeaders>
+               <TableColumnHeader>
+                  <Label>Id</Label>
+               </TableColumnHeader>
+               <TableColumnHeader>
+                  <Label>Name</Label>
+               </TableColumnHeader>
+               <TableColumnHeader>
+                  <Label>Type</Label>
+               </TableColumnHeader>
+               <TableColumnHeader>
+                  <Label>Owner</Label>
+               </TableColumnHeader>
+               <TableColumnHeader>
+                  <Label>Description</Label>
+               </TableColumnHeader>
+            </TableHeaders>
+            <TableRowEntries>
+               <TableRowEntry>
+                  <TableColumnItems>
+                     <TableColumnItem>
+                        <PropertyName>id</PropertyName>
+                     </TableColumnItem>
+                     <TableColumnItem>
+                        <PropertyName>name</PropertyName>
+                     </TableColumnItem>
+                     <TableColumnItem>
+                        <PropertyName>connectorName</PropertyName>
+                     </TableColumnItem>
+                     <TableColumnItem>
+                        <ScriptBlock>$_.owner.name</ScriptBlock>
+                     </TableColumnItem>
+                     <TableColumnItem>
+                        <PropertyName>description</PropertyName>
+                     </TableColumnItem>
+                  </TableColumnItems>
+               </TableRowEntry>
+            </TableRowEntries>
+         </TableControl>
+      </View>
       <!-- Public Identity -->
       <View>
          <Name>IdentityNowPublicIdentity</Name>
@@ -136,7 +183,7 @@
             </TableRowEntries>
          </TableControl>
       </View>
-      <!-- IdentityNowConnector -->
+      <!-- RoleMiningSession -->
       <View>
          <Name>RoleMiningSession</Name>
          <ViewSelectedBy>
@@ -169,7 +216,6 @@
                      <TableColumnItem>
                         <PropertyName>type</PropertyName>
                      </TableColumnItem>
-
                      <TableColumnItem>
                         <PropertyName>createdDate</PropertyName>
                      </TableColumnItem>
@@ -178,6 +224,65 @@
                      </TableColumnItem>
                      <TableColumnItem>
                         <ScriptBlock>$_.scope.criteria</ScriptBlock>
+                     </TableColumnItem>
+                  </TableColumnItems>
+               </TableRowEntry>
+            </TableRowEntries>
+         </TableControl>
+      </View>
+      <!-- PotentialRoleSummary -->
+      <View>
+         <Name>PotentialRoleSummary</Name>
+         <ViewSelectedBy>
+            <TypeName>IdentityNow.PotentialRoleSummary</TypeName>
+         </ViewSelectedBy>
+         <TableControl>
+            <TableHeaders>
+               <TableColumnHeader>
+                  <Label>Id</Label>
+               </TableColumnHeader>
+               <TableColumnHeader>
+                  <Label>Name</Label>
+               </TableColumnHeader>
+               <TableColumnHeader>
+                  <Label># Identity</Label>
+               </TableColumnHeader>
+               <TableColumnHeader>
+                  <Label># Entitlement</Label>
+               </TableColumnHeader>
+               <TableColumnHeader>
+                  <Label>Density</Label>
+               </TableColumnHeader>
+               <TableColumnHeader>
+                  <Label>Freshness</Label>
+               </TableColumnHeader>
+               <TableColumnHeader>
+                  <Label>Quality</Label>
+               </TableColumnHeader>
+            </TableHeaders>
+            <TableRowEntries>
+               <TableRowEntry>
+                  <TableColumnItems>
+                     <TableColumnItem>
+                        <ScriptBlock>$_.potentialRoleRef.id</ScriptBlock>
+                     </TableColumnItem>
+                     <TableColumnItem>
+                        <ScriptBlock>$_.potentialRoleRef.name</ScriptBlock>
+                     </TableColumnItem>
+                     <TableColumnItem>
+                        <PropertyName>identityCount</PropertyName>
+                     </TableColumnItem>
+                     <TableColumnItem>
+                        <PropertyName>entitlementCount</PropertyName>
+                     </TableColumnItem>
+                     <TableColumnItem>
+                        <PropertyName>density</PropertyName>
+                     </TableColumnItem>
+                     <TableColumnItem>
+                        <PropertyName>freshness</PropertyName>
+                     </TableColumnItem>
+                     <TableColumnItem>
+                        <PropertyName>quality</PropertyName>
                      </TableColumnItem>
                   </TableColumnItems>
                </TableRowEntry>
