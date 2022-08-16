@@ -7,7 +7,7 @@
     Description          = "Orchestration of SailPoint IdentityNow"
     PowerShellVersion    = '5.1'
     CompatiblePSEditions = 'Core', 'Desktop'
-    FormatsToProcess     = @("SailPointIdentityNow.Format.ps1xml")
+    FormatsToProcess     = @('SailPointIdentityNow.Format.ps1xml')
     FunctionsToExport    = @('Complete-IdentityNowTask',
         'Convert-UnixTime',
         'Export-IdentityNowConfig',
