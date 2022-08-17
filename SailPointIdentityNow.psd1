@@ -64,6 +64,7 @@
         'New-IdentityNowAPIClient',
         'New-IdentityNowCertCampaign',        
         'New-IdentityNowGovernanceGroup',
+        'New-IdentityNowIAIRoleMiningSession',
         'New-IdentityNowIdentityProfilesReport',
         'New-IdentityNowOAuthAPIClient',
         'New-IdentityNowPersonalAccessToken',

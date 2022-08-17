@@ -9,7 +9,6 @@ Session Id for this role mining session
 .PARAMETER PotentialRoleId
 A potential role id in a role mining session
 
-
 .EXAMPLE 
 Get-IdentityNowIAIPotentialRoleApplication -SessionId "a7b5c6f3-025b-4c99-a55b-42736b441499" -PotentialRoleId "a7e5c6f3-025b-4c99-a55b-42736b441479"
 #>
