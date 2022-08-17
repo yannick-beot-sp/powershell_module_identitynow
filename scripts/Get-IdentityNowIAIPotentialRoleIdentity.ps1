@@ -67,9 +67,7 @@ Get-IdentityNowIAIPotentialRoleIdentity -SessionId "a7b5c6f3-025b-4c99-a55b-4273
         Get-IdentityNowPaginatedCollection -uri $uri `
             -filters $Filters `
             -sorters $sortersStr `
-            -TypeName "IdentityNow.PotentialRoleIdentity" 
-            # `
-            # -CustomHeaders @{Accept = "application/json" }
+            -TypeName "IdentityNow.PotentialRoleIdentity"
 
     }
     catch {
