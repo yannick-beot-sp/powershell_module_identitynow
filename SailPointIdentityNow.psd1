@@ -27,6 +27,8 @@
         'Get-IdentityNowEmailTemplate',
         'Get-IdentityNowGovernanceGroup',
         'Get-IdentityNowIAIPotentialRole',
+        'Get-IdentityNowIAIPotentialRoleEntitlement',
+        'Get-IdentityNowIAIPotentialRoleIdentity',
         'Get-IdentityNowIAIRecommendation',
         'Get-IdentityNowIAIRoleMiningSession',
         'Get-IdentityNowIdentityAttribute',

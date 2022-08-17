@@ -68,9 +68,8 @@ http://darrenjrobinson.com/sailpoint-identitynow
         
         [string][ValidateSet("V1", "V2", "V3", "Private", "Beta", "CC")]$API,
         
-        [Parameter(Mandatory = $true)]
-        [ValidateNotNullOrEmpty()]
-        [string][ValidateSet("Get", "Put", "Patch", "Delete", "Post")]$Method,
+        [Parameter(Mandatory = $false)]
+        [Microsoft.PowerShell.Commands.WebRequestMethod] $Method = 'Get',
 
         [ValidateSet("HeadersV2", "HeadersV3", "Headersv2_JSON", "Headersv3_JSON", "Headersv3_JSON-Patch")]
         [string]
@@ -160,7 +159,7 @@ http://darrenjrobinson.com/sailpoint-identitynow
         Write-Verbose "< Invoke-IdentityNowRequest"
         if ($json.IsPresent) {
             return $result.content | ConvertFrom-Json `
-                | ? { $_ } | % { if ($TypeName) { $_.PSObject.TypeNames.Insert(0, $TypeName) }; $_ }
+            | ? { $_ } | % { if ($TypeName) { $_.PSObject.TypeNames.Insert(0, $TypeName) }; $_ }
         }
         else {
             return $result.content

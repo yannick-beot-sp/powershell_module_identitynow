@@ -289,5 +289,64 @@
             </TableRowEntries>
          </TableControl>
       </View>
+      <!-- PotentialRoleEntitlement -->
+      <View>
+         <Name>PotentialRoleEntitlement</Name>
+         <ViewSelectedBy>
+            <TypeName>IdentityNow.PotentialRoleEntitlement</TypeName>
+         </ViewSelectedBy>
+         <TableControl>
+            <TableHeaders>
+               <TableColumnHeader>
+                  <Label>Id</Label>
+               </TableColumnHeader>
+               <TableColumnHeader>
+                  <Label>Name</Label>
+               </TableColumnHeader>
+               <TableColumnHeader>
+                  <Label>Application</Label>
+               </TableColumnHeader>
+               <TableColumnHeader>
+                  <Label># Identity</Label>
+               </TableColumnHeader>
+               <TableColumnHeader>
+                  <Label>Popularity</Label>
+               </TableColumnHeader>
+               <TableColumnHeader>
+                  <Label>Popularity In Org</Label>
+               </TableColumnHeader>
+               <TableColumnHeader>
+                  <Label>Description</Label>
+               </TableColumnHeader>
+            </TableHeaders>
+            <TableRowEntries>
+               <TableRowEntry>
+                  <TableColumnItems>
+                     <TableColumnItem>
+                        <ScriptBlock>$_.entitlementRef.id</ScriptBlock>
+                     </TableColumnItem>
+                     <TableColumnItem>
+                        <ScriptBlock>$_.entitlementRef.name</ScriptBlock>
+                     </TableColumnItem>
+                     <TableColumnItem>
+                        <PropertyName>applicationName</PropertyName>
+                     </TableColumnItem>
+                     <TableColumnItem>
+                        <PropertyName>identityCount</PropertyName>
+                     </TableColumnItem>
+                     <TableColumnItem>
+                        <PropertyName>popularity</PropertyName>
+                     </TableColumnItem>
+                     <TableColumnItem>
+                        <PropertyName>popularityInOrg</PropertyName>
+                     </TableColumnItem>
+                     <TableColumnItem>
+                        <ScriptBlock>$_.entitlementRef.description</ScriptBlock>
+                     </TableColumnItem>
+                  </TableColumnItems>
+               </TableRowEntry>
+            </TableRowEntries>
+         </TableControl>
+      </View>
    </ViewDefinitions>
 </Configuration>

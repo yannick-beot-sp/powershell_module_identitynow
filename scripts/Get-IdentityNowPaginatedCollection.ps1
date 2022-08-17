@@ -50,7 +50,12 @@ function Get-IdentityNowPaginatedCollection {
         $Body,
 
         [Parameter(Mandatory = $false, ValueFromPipeline = $true)]
-        [string]$pageSize = 250
+        [string]$pageSize = 250,
+
+        [Parameter(Mandatory = $false, ValueFromPipeline = $true)]
+        [hashtable]$CustomHeaders = @{},
+
+        [string]$TypeName
     )
 
     $v3Token = Get-IdentityNowAuth | Test-IdentityNowToken
@@ -68,14 +73,17 @@ function Get-IdentityNowPaginatedCollection {
         count  = $true
     }
     $total = -1
+    $CustomHeaders.Add(
+        "Authorization", "$($v3Token.token_type) $($v3Token.access_token)")
 
     $requestArgs = @{
         Method      = $Method 
         Uri         = $newUri
         ContentType = "application/json" 
-        Headers     = @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }
+        Headers     = $CustomHeaders
     }
-    if($body){
+
+    if ($body) {
         $requestArgs.Add("Body", $body)
     }
 
@@ -84,7 +92,7 @@ function Get-IdentityNowPaginatedCollection {
         $requestArgs.Uri = $newUri 
 
         $response = Invoke-WebRequest @requestArgs
-        Write-output ($response.Content | ConvertFrom-Json)
+        Write-output ($response.Content | ConvertFrom-Json | ? { $_ } | % { if ($TypeName) { $_.PSObject.TypeNames.Insert(0, $TypeName) }; $_ })
         
         if ($total -eq -1) {
             # First iteration
