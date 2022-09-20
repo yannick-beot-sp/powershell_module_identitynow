@@ -32,6 +32,12 @@ function Get-IdentityNowPaginatedCollection {
 
 .EXAMPLE
     Get-IdentityNowPaginatedCollection -uri $uri
+
+TODO
+- Manage searchAfter
+- Manage aggregations
+- Doc
+
 #>
     [cmdletbinding()]
     param(
@@ -69,6 +75,10 @@ function Get-IdentityNowPaginatedCollection {
     if ($sorters) {
         $uri = $uri | Set-HttpQueryString -Name "sorters" -Value $sorters
     }
+
+    if ($limit -gt 0 -and ($pageSize -gt $limit)) {
+        $pageSize = $limit
+    }
     $newUri = $uri | Set-HttpQueryString -QueryParameters @{
         limit  = $pageSize
         offset = $offset
@@ -88,9 +98,9 @@ function Get-IdentityNowPaginatedCollection {
     if ($body) {
         $requestArgs.Add("Body", $body)
     }
-
-    while ($total -eq -1 -or $total -gt $offset -and ($limit -eq -1 -or ($offset + $pageSize) -lt $limit)) {
+    do {
         Write-Verbose "offset=$offset"
+        Write-Verbose "pageSize=$pageSize"
         $requestArgs.Uri = $newUri 
 
         $response = Invoke-WebRequest @requestArgs
@@ -104,7 +114,7 @@ function Get-IdentityNowPaginatedCollection {
         
         $offset += $pageSize
 
-        if ($limit -gt 0 -and (($offset + $pageSize) -gt $limit)) {
+        if ($limit -gt 0 -and ($offset -gt $limit)) {
             $pageSize = $limit - $offset
         }
 
@@ -114,5 +124,5 @@ function Get-IdentityNowPaginatedCollection {
             offset = $offset
             count  = $false
         }
-    }
+    }  while ($total -gt $offset -and ($limit -eq -1 -or ($offset + $pageSize) -lt $limit))
 }
