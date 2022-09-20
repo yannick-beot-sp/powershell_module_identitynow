@@ -154,9 +154,11 @@ http://darrenjrobinson.com/sailpoint-identitynow
     try {
         Write-Verbose "Get Roles from $uri"
         Write-Verbose "sorters=$sorters"
-        Get-IdentityNowPaginatedCollection -uri $uri -sorters $sortersStr -pageSize 50 | `
-            ? { $_ } | % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.Role"); $_ }
- 
+
+        Get-IdentityNowPaginatedCollection -uri $uri `
+            -sorters $sortersStr `
+            -pageSize 50 `
+            -TypeName "IdentityNow.Role"
     }
     catch {
         Write-Error "Could not get Access Profile from $uri. $($_)"

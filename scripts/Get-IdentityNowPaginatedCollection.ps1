@@ -50,12 +50,14 @@ function Get-IdentityNowPaginatedCollection {
         $Body,
 
         [Parameter(Mandatory = $false, ValueFromPipeline = $true)]
-        [string]$pageSize = 250,
+        [int]$pageSize = 250,
 
         [Parameter(Mandatory = $false, ValueFromPipeline = $true)]
         [hashtable]$CustomHeaders = @{},
 
-        [string]$TypeName
+        [string]$TypeName,
+
+        [int]$limit = -1
     )
 
     $v3Token = Get-IdentityNowAuth | Test-IdentityNowToken
@@ -87,7 +89,7 @@ function Get-IdentityNowPaginatedCollection {
         $requestArgs.Add("Body", $body)
     }
 
-    while ($total -eq -1 -or $total -gt $offset) {
+    while ($total -eq -1 -or $total -gt $offset -and ($limit -eq -1 -or ($offset + $pageSize) -lt $limit)) {
         Write-Verbose "offset=$offset"
         $requestArgs.Uri = $newUri 
 
@@ -101,6 +103,11 @@ function Get-IdentityNowPaginatedCollection {
         }
         
         $offset += $pageSize
+
+        if ($limit -gt 0 -and (($offset + $pageSize) -gt $limit)) {
+            $pageSize = $limit - $offset
+        }
+
 
         $newUri = $uri | Set-HttpQueryString -QueryParameters @{
             limit  = $pageSize

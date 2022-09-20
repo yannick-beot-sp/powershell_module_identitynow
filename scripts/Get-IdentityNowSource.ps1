@@ -70,17 +70,16 @@ function Get-IdentityNowSource {
         else {
             #ParameterSetName -eq "Name"
             $params = @{
-                uri     = $v3BaseUrl
-                sorters = "name"
+                uri      = $v3BaseUrl
+                sorters  = "name"
+                TypeName = "IdentityNow.Source"
             }
 
             if ($name) {
                 $filter = "name eq `"$name`""
                 $params.Add("filters", $filter)
             }
-            $IDNSources = Get-IdentityNowPaginatedCollection @params |`
-                ? { $_ } | % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.Source"); $_ }
-            return $IDNSources
+            Get-IdentityNowPaginatedCollection @params
 
         }
     }

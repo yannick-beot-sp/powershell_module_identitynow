@@ -109,7 +109,7 @@ http://darrenjrobinson.com/sailpoint-identitynow
         $v3Token = Get-IdentityNowAuth | Test-IdentityNowToken
         $headers = @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }
         Invoke-RestMethod -Headers $headers -Uri $uri `
-            | ? { $_ } | % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.AccessProfile"); $_ }
+        | ? { $_ } | % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.AccessProfile"); $_ }
         return    
     }
 
@@ -139,8 +139,11 @@ http://darrenjrobinson.com/sailpoint-identitynow
     try {
         Write-Verbose "Get access profiles from $uri"
         Write-Verbose "sorters=$sorters"
-        Get-IdentityNowPaginatedCollection -uri $uri -sorters $sortersStr -pageSize 50 | `
-            ? { $_ } | % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.AccessProfile"); $_ }
+        Get-IdentityNowPaginatedCollection -uri $uri `
+            -sorters $sortersStr `
+            -pageSize 50 `
+            -TypeName "IdentityNow.AccessProfile"
+
  
     }
     catch {

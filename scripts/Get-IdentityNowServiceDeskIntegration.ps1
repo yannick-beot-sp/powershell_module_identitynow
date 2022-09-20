@@ -76,7 +76,7 @@ Get-IdentityNowServiceDeskIntegration type -eq "Atlassian Cloud Jira SDIM"
             $uri = $baseuri + "/$Id"
             Write-Verbose "Getting ServiceDeskIntegration from $uri"
             Invoke-RestMethod -Headers $headers -Uri $uri `
-               | ? { $_ } | % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.ServiceDeskIntegration"); $_ }
+            | ? { $_ } | % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.ServiceDeskIntegration"); $_ }
         }
         else {
             $uri = $baseuri
@@ -105,8 +105,11 @@ Get-IdentityNowServiceDeskIntegration type -eq "Atlassian Cloud Jira SDIM"
             try {
                 Write-Verbose "Get Service Desk Integration from $uri"
                 Write-Verbose "sorters=$sorters"
-                Get-IdentityNowPaginatedCollection -uri $uri -sorters $sortersStr -pageSize 50 | `
-                    ? { $_ } | % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.ServiceDeskIntegration"); $_ }
+
+                Get-IdentityNowPaginatedCollection -uri $uri `
+                    -sorters $sortersStr `
+                    -pageSize 50 `
+                    -TypeName "IdentityNow.ServiceDeskIntegration"
             }
             catch {
                 Write-Error "Could not get Service Desk Integration from $uri. $($_)"

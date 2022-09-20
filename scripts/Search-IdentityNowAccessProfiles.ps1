@@ -34,8 +34,10 @@ function Search-IdentityNowAccessProfiles {
         $uri = Get-IdentityNowOrgUrl v3 "/search"
         Write-Verbose "Get Access Profiles from $uri"
           
-        Get-IdentityNowPaginatedCollection -uri $uri -Method Post -Body $body | `
-            ? {$_} | % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.AccessProfile"); $_ }
+        Get-IdentityNowPaginatedCollection -uri $uri `
+            -Method Post `
+            -sorters $sortersStr `
+            -TypeName "IdentityNow.AccessProfile"
         
     }
     catch {

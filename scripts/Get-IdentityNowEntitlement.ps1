@@ -128,8 +128,11 @@ Get-IdentityNowEntitlement -sorters name -filters "requestable eq `"false`""
     try {
         Write-Verbose "Get Entitlements from $uri"
         Write-Verbose "sorters=$sorters"
-        Get-IdentityNowPaginatedCollection -uri $uri -sorters $sortersStr -pageSize 50 | `
-            ? { $_ } | % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.Entitlement"); $_ }
+        Get-IdentityNowPaginatedCollection -uri $uri `
+            -sorters $sortersStr `
+            -pageSize 50 `
+            -TypeName "IdentityNow.Entitlement"
+
  
     }
     catch {

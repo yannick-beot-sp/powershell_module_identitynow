@@ -65,7 +65,7 @@ Get-IdentityNowIAIRoleMiningSession -sorters "-createdDate"
         $sorters = @("-createdDate")
     )
     Write-Verbose "PSCmdlet.ParameterSetName=$($PSCmdlet.ParameterSetName)"
-    $uri =  Get-IdentityNowOrgUrl Beta "/role-mining-sessions"   
+    $uri = Get-IdentityNowOrgUrl Beta "/role-mining-sessions"   
 
     if ($PSCmdlet.ParameterSetName -eq "Id") {
         $uri += "/$Id"
@@ -95,8 +95,10 @@ Get-IdentityNowIAIRoleMiningSession -sorters "-createdDate"
     try {
         Write-Verbose "Get Role Mining Session from $uri"
         Write-Verbose "sorters=$sorters"
-        Get-IdentityNowPaginatedCollection -uri $uri -sorters $sortersStr -pageSize 50 | `
-            ? { $_ } | % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.RoleMiningSession"); $_ }
+        Get-IdentityNowPaginatedCollection -uri $uri `
+            -sorters $sortersStr `
+            -pageSize 50 `
+            -TypeName "IdentityNow.RoleMiningSession"
  
     }
     catch {

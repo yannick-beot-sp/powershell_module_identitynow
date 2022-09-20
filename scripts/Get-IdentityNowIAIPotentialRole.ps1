@@ -55,9 +55,11 @@ Get-IdentityNowIAIPotentialRole -sorters "-quality"
     try {
         Write-Verbose "Get Potential Role Summaries from $uri"
         Write-Verbose "sorters=$sorters"
-        Get-IdentityNowPaginatedCollection -uri $uri -sorters $sortersStr -pageSize 50 | `
-            ? { $_ } | % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.PotentialRoleSummary"); $_ }
- 
+        Get-IdentityNowPaginatedCollection -uri $uri `
+            -sorters $sortersStr `
+            -Method Post `
+            -pageSize 50 `
+            -TypeName "IdentityNow.PotentialRoleSummary"
     }
     catch {
         Write-Error "Could not get Role Mining Session from $uri. $($_)"
