@@ -49,6 +49,7 @@ function Search-IdentityNowIdentities {
             indices = @(
                 "identities"
             )
+            includeNested = $IncludeNested.IsPresent
             query   = @{
                 query=$Query
             }
