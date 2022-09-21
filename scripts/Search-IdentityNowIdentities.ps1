@@ -38,7 +38,8 @@ function Search-IdentityNowIdentities {
         
         [string[]]$Sorters = @("name"),
 
-        [string[]]$Fields,
+        [string[]]$IncludeFields,
+        [string[]]$ExcludeFields,
 
         [switch]$IncludeNested
 
@@ -50,13 +51,17 @@ function Search-IdentityNowIdentities {
                 "identities"
             )
             includeNested = $IncludeNested.IsPresent
+            queryResultFilter =@{}
             query   = @{
                 query=$Query
             }
         }
 
-        if ($Fields) {
-            $body["query"].Add("fields", $Fields)
+        if ($IncludeFields) {
+            $body["queryResultFilter"].Add("includes", $IncludeFields)
+        }
+        if ($ExcludeFields) {
+            $body["queryResultFilter"].Add("excludes", $ExcludeFields)
         }
 
         if($Sorters) {
