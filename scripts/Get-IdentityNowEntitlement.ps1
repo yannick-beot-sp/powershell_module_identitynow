@@ -96,11 +96,8 @@ Get-IdentityNowEntitlement -sorters name -filters "requestable eq `"false`""
 
     if ($PSCmdlet.ParameterSetName -eq "Id") {
         $uri += "/$EntitlementID"
-        $v3Token = Get-IdentityNowAuth | Test-IdentityNowToken
-        $headers = @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }
-        Invoke-RestMethod -Headers $headers -Uri $uri `
-        | ? { $_ } | % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.Entitlement"); $_ }
-        return    
+        Invoke-IdentityNowRequest -Uri $uri -Json -TypeName "IdentityNow.Entitlement"
+        return
     }
 
     if ($PSCmdlet.ParameterSetName -eq "Name") {
