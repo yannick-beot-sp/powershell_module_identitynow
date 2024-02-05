@@ -63,7 +63,21 @@ New-IdentityNowAccessProfile -name "Sydney Engineering" `
     -requestCommentsRequired `
     -deniedCommentsRequired 
 
+.EXAMPLE
+Filter entitlement based on value
+New-IdentityNowAccessProfile -name Test3 -ownerName "darren.robinson" -sourceName "Active Directory" -entitlementNames "value:CN=AccountingGeneral,OU=Groups,OU=Demo,DC=seri,DC=sailpointdemo,DC=com"
 
+.EXAMPLE
+Filter entitlement based on name
+New-IdentityNowAccessProfile -name Test3 -ownerName "darren.robinson" -sourceName "Active Directory" -entitlementNames "name:AccountingGeneral"
+
+.EXAMPLE
+Filter entitlement based on name
+New-IdentityNowAccessProfile -name Test3 -ownerName "darren.robinson" -sourceName "Active Directory" -entitlementNames "AccountingGeneral"
+
+.EXAMPLE
+Filter entitlement based on attribute (memberOf)
+New-IdentityNowAccessProfile -name Test3 -ownerName "darren.robinson" -sourceName "Active Directory" -entitlementNames "memberOf:CN=AccountingGeneral,OU=Groups,OU=Demo,DC=seri,DC=sailpointdemo,DC=com"
 .LINK
 http://darrenjrobinson.com/sailpoint-identitynow
 
@@ -245,7 +259,8 @@ http://darrenjrobinson.com/sailpoint-identitynow
                             # Note ConvertTo-Json includes the double-quotes in its output
                             if ($Matches.attribute -eq "name" -or $Matches.attribute -eq "value") {
                                 $filter += "$($Matches.attribute) eq $($Matches.value | ConvertTo-Json)"
-                            } else {
+                            }
+                            else {
                                 $filter += "value eq $($Matches.value | ConvertTo-Json) and attribute eq $($Matches.attribute | ConvertTo-Json)"
                             }
 

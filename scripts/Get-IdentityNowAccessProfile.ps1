@@ -106,10 +106,7 @@ http://darrenjrobinson.com/sailpoint-identitynow
     
     if ($PSCmdlet.ParameterSetName -eq "Id") {
         $uri += "/$profileID"
-        $v3Token = Get-IdentityNowAuth | Test-IdentityNowToken
-        $headers = @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)" }
-        Invoke-RestMethod -Headers $headers -Uri $uri `
-        | ? { $_ } | % { $_.PSObject.TypeNames.Insert(0, "IdentityNow.AccessProfile"); $_ }
+        Invoke-IdentityNowRequest -Uri $uri -Json -TypeName "IdentityNow.AccessProfile"
         return    
     }
 
