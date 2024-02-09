@@ -91,6 +91,12 @@ or
 install-module -name SailPointIdentityNow
 ```
 
+or after a clone of the repo:
+
+```powershell
+Remove-Module SailPointIdentityNow; ipmo .\SailPointIdentityNow.psm1; Update-FormatData .\SailPointIdentityNow.Format.ps1xml
+```
+
 ## Examples ##
 
 These examples are also available as an interactive PowerShell Jupyter Notebook. You can download the examples [PowerShell Jupyter Notebook from here](https://gist.github.com/darrenjrobinson/dfbf7470212fb295fc13c6608d91c0f1).
@@ -107,21 +113,21 @@ To get started with Local PowerShell Jupyter Notebook [see this post](https://bl
 **Update: June 2021 - The Password Grant Type has been deprecated. [Reference Post](https://community.sailpoint.com/t5/SaaS-Updates/Introducing-Personal-Access-Tokens/ba-p/172974) Configuring access and credentials for IdentityNow MUST utilise Personal Access Tokens. While logged into the IdentityNow Portal select your Identity Name in the top right corner of the menu, select Preferences => Personal Access Tokens => New Token => Create.**
 
 ```powershell
-    $orgName = "customername-sb"
-    Set-IdentityNowOrg -orgName $orgName
+$orgName = "customername-sb"
+Set-IdentityNowOrg -orgName $orgName
 
-    # IdentityNow Admin User
-    $adminUSR = "identityNow_admin_User"
-    $adminPWD = 'idnAdminUserPassword'
-    $adminCreds = [pscredential]::new($adminUSR, ($adminPWD | ConvertTo-SecureString -AsPlainText -Force))
+# IdentityNow Admin User
+$adminUSR = "identityNow_admin_User"
+$adminPWD = 'idnAdminUserPassword'
+$adminCreds = [pscredential]::new($adminUSR, ($adminPWD | ConvertTo-SecureString -AsPlainText -Force))
 
-    # IdentityNow Personal Access Token as generated through the IdentityNow Portal and your personal identity profile preferences
-    $patClientID = 'yourClientID'
-    $patClientSecret = 'yourClientSecret'
-    $patCreds = [pscredential]::new("$($patClientID)", ($patClientSecret | ConvertTo-SecureString -AsPlainText -Force))
+# IdentityNow Personal Access Token as generated through the IdentityNow Portal and your personal identity profile preferences
+$patClientID = 'yourClientID'
+$patClientSecret = 'yourClientSecret'
+$patCreds = [pscredential]::new("$($patClientID)", ($patClientSecret | ConvertTo-SecureString -AsPlainText -Force))
 
-    Set-IdentityNowCredential -AdminCredential $adminCreds -PersonalAccessToken $patCreds
-    Save-IdentityNowConfiguration
+Set-IdentityNowCredential -AdminCredential $adminCreds -PersonalAccessToken $patCreds
+Save-IdentityNowConfiguration
 ```
 
 _Optional_ v2 Credentials are now only used for VA's.
@@ -130,14 +136,14 @@ If you have previously generated v2 creds and wish to utilise them with Invoke-I
 Example
 
 ```powershell
-    # IdentityNow API Client ID & Secret generated using New-IdentityNowAPIClient
-    $clientID = 'zo7ABCDaTHjA0Rwv'
-    # Your API Client Secret
-    $clientSecret = '3Zm9Qod4sWhihABCdefgCX9DIfmwAZiP'
-    $v2Creds = [pscredential]::new($clientID, ($clientSecret | ConvertTo-SecureString -AsPlainText -Force))
+# IdentityNow API Client ID & Secret generated using New-IdentityNowAPIClient
+$clientID = 'zo7ABCDaTHjA0Rwv'
+# Your API Client Secret
+$clientSecret = '3Zm9Qod4sWhihABCdefgCX9DIfmwAZiP'
+$v2Creds = [pscredential]::new($clientID, ($clientSecret | ConvertTo-SecureString -AsPlainText -Force))
 
-    Set-IdentityNowCredential -AdminCredential $adminCreds -v3APIKey $v3Creds -v2APIKey $v2Creds -PersonalAccessToken $patCreds
-    Save-IdentityNowConfiguration
+Set-IdentityNowCredential -AdminCredential $adminCreds -v3APIKey $v3Creds -v2APIKey $v2Creds -PersonalAccessToken $patCreds
+Save-IdentityNowConfiguration
 ```
 
 **Note:** you can use New-IdentityNowAPIClient to generate v2 credentials after setting just the v3 credentials (via the IdentityNow Portal for your first API key).

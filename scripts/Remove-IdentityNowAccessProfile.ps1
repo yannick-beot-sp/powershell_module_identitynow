@@ -3,9 +3,6 @@ function Remove-IdentityNowAccessProfile {
 .SYNOPSIS
 Delete an IdentityNow Access Profile.
 
-.DESCRIPTION
-Delete an IdentityNow Access Profile.
-
 .PARAMETER Id
 (required) The access profile ID of the IdentityNow Access Profile to delete.
 
@@ -24,25 +21,53 @@ Get-IdentityNowAccessProfile | ? {$_.source.id -eq "2c9140857e542d2f017e67137adb
 http://darrenjrobinson.com/sailpoint-identitynow
 
 #>
-    [cmdletbinding()]
+    [CmdletBinding(DefaultParameterSetName = "ID")]
     param(
-        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, ParameterSetName = "ID")]
         [Alias("profileID")]
-        [string]$Id
+        [string]$Id,
+        [Parameter(Mandatory = $true, ParameterSetName = "Bulk")]
+        [Alias("AccessProfileIds")]
+        [string[]]$IDs,
+        [Parameter(ParameterSetName = "Bulk")]
+        [switch]$BestEffortOnly
     )
-    Begin {
-        $v3Token = Get-IdentityNowAuth | Test-IdentityNowToken
-        $headers = @{Authorization = "$($v3Token.token_type) $($v3Token.access_token)"}
-        
+    BEGIN {
+        $BaseURL = Get-IdentityNowOrgUrl v3 "/access-profiles"
     }
     Process {
-        try {   
-            $uri = (Get-IdentityNowOrg).Beta + "/access-profiles/" + $Id
-            Invoke-RestMethod -Method Delete -Uri $uri -Headers $headers
+
+        if ($PSCmdlet.ParameterSetName -eq "Bulk") {
+            $uri = "$BaseURL/bulk-delete"
+            #https://stackoverflow.com/a/13891437
+            $MAX_BULK = 50
+            try {
+                for ($i = 0; $i -lt $IDs.length; $i += $MAX_BULK) { 
+                    $accessProfileIds = $IDs[$i .. ($i + $MAX_BULK - 1)]
+                    Write-Verbose ($roleIds | Out-String)
+                    Invoke-IdentityNowRequest -Uri $uri `
+                        -Method POST `
+                        -body @{ 
+                        accessProfileIds = $accessProfileIds
+                        bestEffortOnly   = $BestEffortOnly.IsPresent
+                    }
+                }
+            }
+            catch {
+                Write-Error "Deletion of Roles failed. Check Role Configuration for $IDs. $($_)"
+                throw $_
+            }
         }
-        catch {
-            Write-Error "Deletion of Access Profile $Id failed. Check Access Profile ID. $($_)"
-            throw $_
+        else {
+            $uri = "$BaseURL/$ID"
+            Write-Verbose "uri=$uri"
+            try {
+                Invoke-IdentityNowRequest -Uri $uri -Method Delete
+            }
+            catch {
+                Write-Error "Deletion of Access Profile $Id failed. Check Access Profile ID. $($_)"
+                throw $_
+            }
         }
     }
 }
