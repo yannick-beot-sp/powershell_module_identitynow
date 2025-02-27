@@ -124,7 +124,7 @@ $adminCreds = [pscredential]::new($adminUSR, ($adminPWD | ConvertTo-SecureString
 # IdentityNow Personal Access Token as generated through the IdentityNow Portal and your personal identity profile preferences
 $patClientID = 'yourClientID'
 $patClientSecret = 'yourClientSecret'
-$patCreds = [pscredential]::new("$($patClientID)", ($patClientSecret | ConvertTo-SecureString -AsPlainText -Force))
+$patCreds = [pscredential]::new($patClientID, ($patClientSecret | ConvertTo-SecureString -AsPlainText -Force))
 
 Set-IdentityNowCredential -AdminCredential $adminCreds -PersonalAccessToken $patCreds
 Save-IdentityNowConfiguration

@@ -77,6 +77,7 @@
         'New-IdentityNowUserSourceAccount',
         'New-IdentityNowSourceEntitlements',
         'New-IdentityNowTransform',
+        'New-IdentityNowAccessRequest'
         'Remove-IdentityNowAccessProfile',
         'Remove-IdentityNowApplication',
         'Remove-IdentityNowAPIClient',

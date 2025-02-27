@@ -16,7 +16,7 @@ function Search-IdentityNowIdentities {
     (optional - default 2500) number of results to return
 
 .EXAMPLE
-    $queryFilter = '{"query":{"query":"@access(type:ENTITLEMENT AND name:*FILE SHARE*)"},"includeNested":true}'
+    $queryFilter = "@access(type:ENTITLEMENT AND name:*FILE SHARE*)"
     Search-IdentityNowIdentities -filter $queryFilter 
 
 .EXAMPLE
